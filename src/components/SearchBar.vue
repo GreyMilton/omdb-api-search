@@ -15,7 +15,10 @@ watch(search, (newSearch) => {
 
 <template>
   <div class="flex h-24 items-center justify-between bg-omdb-grey px-2">
-    <SearchInput v-model="search" />
+    <SearchInput
+      v-model="search"
+      class="w-5/12"
+    />
     <div class="flex items-center">
       <h3 class="bg-red-600">year filter</h3>
       <h3 class="bg-blue-500">type filter</h3>
