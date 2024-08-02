@@ -1,5 +1,5 @@
 <script setup>
-import MagnifyingGlass from './components/icons/MagnifyingGlass.vue';
+import Searchinput from './components/SearchInput.vue';
 </script>
 
 <template>
@@ -12,13 +12,7 @@ import MagnifyingGlass from './components/icons/MagnifyingGlass.vue';
   <main class="grow bg-gray-100 pb-20">
     <section class="m-auto h-[700px] w-[1152px] border bg-white">
       <div class="bg-omdb-grey flex h-24 items-center pl-2">
-        <label for="search-input">
-          <MagnifyingGlass />
-        </label>
-        <input
-          id="search-input"
-          class="h-10 bg-transparent pl-2 text-2xl font-light text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
-        />
+        <Searchinput />
       </div>
     </section>
   </main>
