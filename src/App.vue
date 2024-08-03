@@ -82,6 +82,11 @@ const handleSelection = debounce((imdbId) => {
       console.error('Error fetching data:', error);
     });
 }, 100);
+
+function handleBack() {
+  selectedResult.value = {};
+  showSelection.value = false;
+}
 </script>
 
 <template>
@@ -102,7 +107,9 @@ const handleSelection = debounce((imdbId) => {
       />
       <div class="grid grid-cols-11">
         <div
-          :class="showSelection ? 'col-span-4' : 'col-span-11'"
+          :class="
+            showSelection ? 'hidden lg:col-span-4 lg:block' : 'col-span-11'
+          "
           class="row-span-1 h-fit"
         >
           <SearchStatus :status="searchStatus" />
@@ -114,8 +121,9 @@ const handleSelection = debounce((imdbId) => {
         </div>
         <MovieShow
           v-if="showSelection"
-          class="col-span-7 row-span-1 sm:max-h-[1000px] md:max-h-[710px] lg:max-h-[666px]"
+          class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedResult"
+          @back="handleBack"
         />
       </div>
     </section>

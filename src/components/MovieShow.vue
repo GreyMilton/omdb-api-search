@@ -5,11 +5,21 @@ defineProps({
     required: true,
   },
 });
+
+defineEmits(['back']);
 </script>
 
 <template>
-  <article class="border-l border-zinc-300 p-8 text-lg font-extralight">
-    <div class="flex items-center gap-4 pb-6">
+  <article
+    class="border-l border-zinc-300 px-8 pb-8 pt-1 text-lg font-extralight lg:p-8"
+  >
+    <button
+      class="my-3 block pb-2 pl-1 pr-2 pt-2 text-sm hover:bg-zinc-100 focus-visible:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
+      @click="$emit('back')"
+    >
+      &lt; back to results
+    </button>
+    <div class="flex flex-col gap-4 pb-6 sm:flex-row sm:items-center">
       <img
         :src="movie.Poster"
         class="w-48 rounded-md"
