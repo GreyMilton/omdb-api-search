@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import SearchInput from './SearchInput.vue';
+import SearchTypeFilter from './SearchTypeFilter.vue';
 
 const emit = defineEmits(['search', 'clear']);
 
@@ -13,6 +14,9 @@ watch(search, (newSearch) => {
     emit('clear');
   }
 });
+
+const types = ['any', 'movies', 'series', 'episode'];
+const type = ref(types[0]);
 </script>
 
 <template>
@@ -23,9 +27,12 @@ watch(search, (newSearch) => {
       v-model="search"
       class="w-full md:w-5/12"
     />
-    <div class="flex items-center">
+    <div class="flex items-center justify-between gap-6 p-5 md:justify-start">
       <p class="bg-red-300">year filter</p>
-      <p class="bg-blue-300">type filter</p>
+      <SearchTypeFilter
+        v-model="type"
+        :types="types"
+      />
     </div>
   </div>
 </template>
