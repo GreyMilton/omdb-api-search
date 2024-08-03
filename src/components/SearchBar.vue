@@ -21,13 +21,15 @@ const type = ref(types[0]);
 
 <template>
   <div
-    class="flex flex-col justify-between bg-omdb-grey px-2 pt-5 md:h-24 md:flex-row md:items-center md:pt-0"
+    class="flex flex-col justify-between bg-omdb-grey px-2 pt-5 lg:h-24 lg:flex-row lg:items-center lg:pt-0"
   >
     <SearchInput
       v-model="search"
-      class="w-full md:w-5/12"
+      class="w-full lg:w-5/12"
     />
-    <div class="flex items-center justify-between gap-6 p-5 md:justify-start">
+    <div
+      class="flex flex-col justify-between gap-6 p-5 md:flex-row md:items-center lg:justify-start"
+    >
       <p class="bg-red-300">year filter</p>
       <SearchTypeFilter
         v-model="type"
