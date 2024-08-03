@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 import SearchStatus from './components/SearchStatus.vue';
 import SearchResults from './components/SearchResults.vue';
-import MovieShow from './components/MovieShow.vue';
+import MovieDetails from './components/MovieDetails.vue';
 
 const defaultSearchStatus = 'Ready to search.';
 const searchResults = ref([]);
@@ -120,7 +120,7 @@ function handleClose() {
             @selection="handleSelection"
           />
         </div>
-        <MovieShow
+        <MovieDetails
           v-if="showSelection"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedResult"
