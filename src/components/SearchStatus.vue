@@ -10,7 +10,7 @@ defineProps({
 <template>
   <p
     role="status"
-    class="px-7 py-4 text-sm font-extralight uppercase"
+    class="px-7 py-4 text-sm font-extralight"
   >
     {{ status }}
   </p>
