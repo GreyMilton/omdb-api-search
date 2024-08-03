@@ -8,6 +8,7 @@ import MovieDetails from './components/MovieDetails.vue';
 
 const defaultSearchStatus = 'Ready to search.';
 const searchStatus = ref(defaultSearchStatus);
+const searchPending = ref(false);
 const searchResults = ref([]);
 const selectedMovie = ref({});
 const showMovieDetails = ref(false);
@@ -29,6 +30,7 @@ function clearSearch() {
   searchResults.value = [];
   searchStatus.value = defaultSearchStatus;
   showMovieDetails.value = false;
+  searchPending.value = false;
 }
 
 function createRequestUrl(params) {
@@ -60,6 +62,9 @@ function getSearchResults(search, type, year) {
     })
     .catch((error) => {
       searchStatus.value = createErrorMessage(error.message);
+    })
+    .finally(() => {
+      searchPending.value = false;
     });
 }
 
@@ -85,13 +90,18 @@ function getMovieById(id) {
     });
 }
 
-const handleSearch = debounce((search, type, year) => {
+const debouncedSearch = debounce((search, type, year) => {
   if (!search) {
     clearSearch();
     return;
   }
   getSearchResults(search, type, year);
 }, 600);
+
+function handleSearch(search, type, year) {
+  searchPending.value = true;
+  debouncedSearch(search, type, year);
+}
 
 const handleSelect = debounce((id) => {
   getMovieById(id);
@@ -125,7 +135,11 @@ function handleCloseDetails() {
           "
           class="row-span-1 h-fit"
         >
-          <SearchStatus :status="searchStatus" />
+          <SearchStatus :status="searchStatus">
+            <p class="p-4 text-sm font-extralight italic">
+              {{ searchPending ? 'loading...' : '' }}
+            </p>
+          </SearchStatus>
           <SearchResults
             :results="searchResults"
             :selected-result="selectedMovie.imdbID"
