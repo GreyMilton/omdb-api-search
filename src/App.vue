@@ -12,6 +12,19 @@ const searchResults = ref([]);
 const selectedMovie = ref({});
 const showMovieDetails = ref(false);
 
+const errorMap = {
+  'Movie not found!': '0 results found.',
+  'Too many results.': 'Keep typing...',
+  'Failed to fetch': 'Network error: Please check your internet connection.',
+};
+
+function createErrorMessage(error) {
+  return (
+    errorMap[error] ||
+    'Oops, there was a problem. Please adjust your search and try again.'
+  );
+}
+
 function clearSearch() {
   searchResults.value = [];
   searchStatus.value = defaultSearchStatus;
@@ -38,7 +51,7 @@ function getSearchResults(search, type, year) {
     })
     .then((data) => {
       if (data.Response === 'False') {
-        searchStatus.value = data.Error;
+        searchStatus.value = createErrorMessage(data.Error);
         searchResults.value = [];
       } else {
         searchResults.value = data.Search;
@@ -46,7 +59,7 @@ function getSearchResults(search, type, year) {
       }
     })
     .catch((error) => {
-      console.error('Error fetching data:', error);
+      searchStatus.value = createErrorMessage(error.message);
     });
 }
 
@@ -68,7 +81,7 @@ function getMovieById(id) {
       }
     })
     .catch((error) => {
-      console.error('Error fetching data:', error);
+      searchStatus.value = createErrorMessage(error.message);
     });
 }
 
