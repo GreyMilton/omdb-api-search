@@ -63,7 +63,6 @@ const debouncedGetById = debounce((imdbId) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.Response === 'False') {
         selectionStatus.value = data.Error;
         selectedResult.value = {};
