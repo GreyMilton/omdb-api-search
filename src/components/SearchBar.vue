@@ -28,7 +28,8 @@ const types = [
 ];
 const type = ref(types[0].value);
 
-const year = ref('2024');
+const currentYear = new Date().getFullYear();
+const year = ref(currentYear);
 const yearEnabled = ref(false);
 const searchYear = computed(() => {
   return yearEnabled.value ? year.value : '';
