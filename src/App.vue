@@ -108,6 +108,7 @@ const handleSelection = debounce((imdbId) => {
           <SearchStatus :status="searchStatus" />
           <SearchResults
             :results="searchResults"
+            :selected-result="selectedResult.imdbID"
             @selection="handleSelection"
           />
         </div>
