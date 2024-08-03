@@ -26,6 +26,7 @@ defineEmits(['selection']);
         <button
           class="flex w-full items-center gap-3.5 p-7 ring-inset hover:bg-zinc-100 focus-visible:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200"
           :class="{ 'bg-zinc-100': selectedResult === result.imdbID }"
+          :aria-label="'Select ' + result.Title"
           @click="$emit('selection', result.imdbID)"
         >
           <img
