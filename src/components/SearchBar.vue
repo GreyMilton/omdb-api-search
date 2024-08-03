@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import SearchInput from './SearchInput.vue';
 import SearchTypeFilter from './SearchTypeFilter.vue';
 import SearchYearFilter from './SearchYearFilter.vue';
@@ -29,10 +29,14 @@ const types = [
 const type = ref(types[0].value);
 
 const year = ref('2024');
+const yearEnabled = ref(false);
+const searchYear = computed(() => {
+  return yearEnabled.value ? year.value : '';
+});
 
 watch(search, (newSearch) => {
   if (newSearch) {
-    emit('search', newSearch, type.value, year.value);
+    emit('search', newSearch, type.value, searchYear.value);
   } else {
     emit('clear');
   }
@@ -40,13 +44,19 @@ watch(search, (newSearch) => {
 
 watch(type, (newType) => {
   if (search.value) {
-    emit('search', search.value, newType, year.value);
+    emit('search', search.value, newType, searchYear.value);
   }
 });
 
 watch(year, (newYear) => {
-  if (search.value) {
+  if (search.value && yearEnabled.value) {
     emit('search', search.value, type.value, newYear);
+  }
+});
+
+watch(yearEnabled, () => {
+  if (search.value) {
+    emit('search', search.value, type.value, searchYear.value);
   }
 });
 </script>
@@ -62,7 +72,10 @@ watch(year, (newYear) => {
     <div
       class="flex flex-col justify-between gap-6 p-5 md:flex-row md:items-center lg:justify-start"
     >
-      <SearchYearFilter v-model="year" />
+      <SearchYearFilter
+        v-model:year="year"
+        v-model:enabled="yearEnabled"
+      />
       <SearchTypeFilter
         v-model="type"
         :types="types"

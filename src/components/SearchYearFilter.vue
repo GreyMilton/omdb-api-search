@@ -1,6 +1,11 @@
 <script setup>
-const model = defineModel({
+const year = defineModel('year', {
   type: String,
+  required: true,
+});
+
+const enabled = defineModel('enabled', {
+  type: Boolean,
   required: true,
 });
 </script>
@@ -14,15 +19,23 @@ const model = defineModel({
     >
     <div class="flex gap-2">
       <input
+        id="enable-year"
+        v-model="enabled"
+        type="checkbox"
+        aria-label="Enable year filter"
+        class="w-3.5"
+      />
+      <input
         id="year-input"
-        v-model="model"
+        v-model="year"
         type="range"
         min="1925"
         max="2024"
         step="1"
-        class="w-44"
+        class="w-36"
+        :disabled="!enabled"
       />
-      <p class="w-8">{{ model }}</p>
+      <p class="w-8">{{ year }}</p>
     </div>
   </div>
 </template>
