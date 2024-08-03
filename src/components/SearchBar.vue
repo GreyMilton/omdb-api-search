@@ -22,8 +22,8 @@ watch(search, (newSearch) => {
       class="w-full md:w-5/12"
     />
     <div class="flex items-center">
-      <h3 class="bg-red-600">year filter</h3>
-      <h3 class="bg-blue-500">type filter</h3>
+      <p class="bg-red-300">year filter</p>
+      <p class="bg-blue-300">type filter</p>
     </div>
   </div>
 </template>
