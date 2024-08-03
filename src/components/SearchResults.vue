@@ -5,18 +5,23 @@ defineProps({
     required: true,
   },
 });
+
+defineEmits(['selection']);
 </script>
 
 <template>
-  <ul class="scrollbar overflow-auto">
+  <ul
+    class="scrollbar overflow-auto sm:max-h-[906px] md:max-h-[658px] lg:max-h-[560px]"
+  >
     <li
       v-for="result in results"
-      :key="result.imdbId"
+      :key="result.imdbID"
       class="border-t border-zinc-300 first:border-none"
     >
       <article>
         <button
           class="flex w-full items-center gap-3.5 p-7 ring-inset hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-omdb-grey"
+          @click="$emit('selection', result.imdbID)"
         >
           <img
             :src="result.Poster"
