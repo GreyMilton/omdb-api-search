@@ -36,7 +36,9 @@ watch(search, (newSearch) => {
 });
 
 watch(type, (newType) => {
-  emit('search', search.value, newType);
+  if (search.value) {
+    emit('search', search.value, newType);
+  }
 });
 </script>
 
