@@ -4,7 +4,7 @@ import SearchInput from './SearchInput.vue';
 import SearchTypeFilter from './SearchTypeFilter.vue';
 import SearchYearFilter from './SearchYearFilter.vue';
 
-const emit = defineEmits(['search', 'clear']);
+const emit = defineEmits(['search']);
 
 const search = ref('');
 
@@ -36,11 +36,7 @@ const searchYear = computed(() => {
 });
 
 watch(search, (newSearch) => {
-  if (newSearch) {
-    emit('search', newSearch, type.value, searchYear.value);
-  } else {
-    emit('clear');
-  }
+  emit('search', newSearch, type.value, searchYear.value);
 });
 
 watch(type, (newType) => {

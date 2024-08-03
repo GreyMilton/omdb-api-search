@@ -17,6 +17,12 @@ const selectionStatus = ref(defaultSelectionStatus);
 const showSelection = ref(false);
 
 const debouncedSearch = debounce((search, type, year) => {
+  if (!search) {
+    searchResults.value = [];
+    searchStatus.value = defaultSearchStatus;
+    showSelection.value = false;
+    return;
+  }
   const params = {
     s: search,
     type: type,
@@ -81,12 +87,6 @@ function handleSearch(search, type, year) {
   debouncedSearch(search, type, year);
 }
 
-function handleClearSearch() {
-  searchResults.value = [];
-  searchStatus.value = defaultSearchStatus;
-  showSelection.value = false;
-}
-
 function handleSelection(imdbId) {
   debouncedGetById(imdbId);
 }
@@ -111,7 +111,6 @@ function handleCloseDetails() {
       <SearchBar
         class="flex-shrink-0"
         @search="handleSearch"
-        @clear="handleClearSearch"
       />
       <div class="grid grid-cols-11">
         <div
