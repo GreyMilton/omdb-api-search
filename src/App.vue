@@ -5,8 +5,9 @@ import SearchBar from './components/SearchBar.vue';
 import SearchStatus from './components/SearchStatus.vue';
 import SearchResults from './components/SearchResults.vue';
 
+const defaultSearchStatus = 'Ready to search.';
 const searchResults = ref([]);
-const searchStatus = ref('Ready to search.');
+const searchStatus = ref(defaultSearchStatus);
 
 const handleSearch = debounce((search) => {
   fetch(
@@ -33,6 +34,11 @@ const handleSearch = debounce((search) => {
       console.error('Error fetching data:', error);
     });
 }, 600);
+
+function handleClear() {
+  searchResults.value = [];
+  searchStatus.value = defaultSearchStatus;
+}
 </script>
 
 <template>
@@ -49,6 +55,7 @@ const handleSearch = debounce((search) => {
       <SearchBar
         class="flex-shrink-0"
         @search="handleSearch"
+        @clear="handleClear"
       />
       <SearchStatus :status="searchStatus" />
       <SearchResults :results="searchResults" />
