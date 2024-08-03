@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import SearchInput from './SearchInput.vue';
 import SearchTypeFilter from './SearchTypeFilter.vue';
+import SearchYearFilter from './SearchYearFilter.vue';
 
 const emit = defineEmits(['search', 'clear']);
 
@@ -27,9 +28,11 @@ const types = [
 ];
 const type = ref(types[0].value);
 
+const year = ref('2024');
+
 watch(search, (newSearch) => {
   if (newSearch) {
-    emit('search', newSearch, type.value);
+    emit('search', newSearch, type.value, year.value);
   } else {
     emit('clear');
   }
@@ -37,7 +40,13 @@ watch(search, (newSearch) => {
 
 watch(type, (newType) => {
   if (search.value) {
-    emit('search', search.value, newType);
+    emit('search', search.value, newType, year.value);
+  }
+});
+
+watch(year, (newYear) => {
+  if (search.value) {
+    emit('search', search.value, type.value, newYear);
   }
 });
 </script>
@@ -53,7 +62,7 @@ watch(type, (newType) => {
     <div
       class="flex flex-col justify-between gap-6 p-5 md:flex-row md:items-center lg:justify-start"
     >
-      <p class="bg-red-300">year filter</p>
+      <SearchYearFilter v-model="year" />
       <SearchTypeFilter
         v-model="type"
         :types="types"

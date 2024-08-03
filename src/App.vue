@@ -16,10 +16,11 @@ const selectionStatus = ref(defaultSelectionStatus);
 
 const showSelection = ref(false);
 
-const handleSearch = debounce((search, type) => {
+const handleSearch = debounce((search, type, year) => {
   const params = {
     s: search,
     type: type,
+    y: year,
     apikey: import.meta.env.VITE_API_KEY,
   };
 
