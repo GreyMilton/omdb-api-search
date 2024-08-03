@@ -16,7 +16,7 @@ const selectionStatus = ref(defaultSelectionStatus);
 
 const showSelection = ref(false);
 
-const handleSearch = debounce((search, type, year) => {
+const debouncedSearch = debounce((search, type, year) => {
   const params = {
     s: search,
     type: type,
@@ -47,13 +47,7 @@ const handleSearch = debounce((search, type, year) => {
     });
 }, 600);
 
-function handleClear() {
-  searchResults.value = [];
-  searchStatus.value = defaultSearchStatus;
-  showSelection.value = false;
-}
-
-const handleSelection = debounce((imdbId) => {
+const debouncedGetById = debounce((imdbId) => {
   const params = {
     i: imdbId,
     apikey: import.meta.env.VITE_API_KEY,
@@ -84,7 +78,21 @@ const handleSelection = debounce((imdbId) => {
     });
 }, 100);
 
-function handleClose() {
+function handleSearch(search, type, year) {
+  debouncedSearch(search, type, year);
+}
+
+function handleClearSearch() {
+  searchResults.value = [];
+  searchStatus.value = defaultSearchStatus;
+  showSelection.value = false;
+}
+
+function handleSelection(imdbId) {
+  debouncedGetById(imdbId);
+}
+
+function handleCloseDetails() {
   selectedResult.value = {};
   showSelection.value = false;
 }
@@ -104,7 +112,7 @@ function handleClose() {
       <SearchBar
         class="flex-shrink-0"
         @search="handleSearch"
-        @clear="handleClear"
+        @clear="handleClearSearch"
       />
       <div class="grid grid-cols-11">
         <div
@@ -124,7 +132,7 @@ function handleClose() {
           v-if="showSelection"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedResult"
-          @close="handleClose"
+          @close="handleCloseDetails"
         />
       </div>
     </section>
