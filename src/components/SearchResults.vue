@@ -17,7 +17,7 @@ watch(
 </script>
 
 <template>
-  <ul class="overflow-auto">
+  <ul class="scrollbar overflow-auto">
     <li
       v-for="result in results"
       :key="result.imdbId"
@@ -41,3 +41,18 @@ watch(
     </li>
   </ul>
 </template>
+
+<style>
+.scrollbar::-webkit-scrollbar {
+  width: 0.725rem;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: #b9b9b9;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #f9f9f9;
+}
+</style>
