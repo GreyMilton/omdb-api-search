@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
+import SearchResults from './components/SearchResults.vue';
 
 const searchResults = ref([]);
 const searchError = ref('');
@@ -42,9 +43,13 @@ const handleSearch = debounce((search) => {
 
   <main class="grow bg-gray-100 pb-20">
     <section
-      class="mx-4 h-[700px] max-w-[1152px] border bg-white sm:mx-14 xl:m-auto"
+      class="mx-4 flex h-[700px] max-w-[1152px] flex-col border bg-white sm:mx-14 xl:m-auto"
     >
-      <SearchBar @search="handleSearch" />
+      <SearchBar
+        class="flex-shrink-0"
+        @search="handleSearch"
+      />
+      <SearchResults :results="searchResults" />
     </section>
   </main>
 </template>
