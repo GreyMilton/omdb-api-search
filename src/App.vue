@@ -7,33 +7,30 @@ import SearchResults from './components/SearchResults.vue';
 import MovieDetails from './components/MovieDetails.vue';
 
 const defaultSearchStatus = 'Ready to search.';
-const searchResults = ref([]);
 const searchStatus = ref(defaultSearchStatus);
+const searchResults = ref([]);
+const selectedMovie = ref({});
+const showMovieDetails = ref(false);
 
-const defaultSelectionStatus = 'No result selected.';
-const selectedResult = ref({});
-const selectionStatus = ref(defaultSelectionStatus);
+function clearSearch() {
+  searchResults.value = [];
+  searchStatus.value = defaultSearchStatus;
+  showMovieDetails.value = false;
+}
 
-const showSelection = ref(false);
+function createRequestUrl(params) {
+  params.apikey = import.meta.env.VITE_API_KEY;
+  return (
+    import.meta.env.VITE_API_URL + '/?' + new URLSearchParams(params).toString()
+  );
+}
 
-const debouncedSearch = debounce((search, type, year) => {
-  if (!search) {
-    searchResults.value = [];
-    searchStatus.value = defaultSearchStatus;
-    showSelection.value = false;
-    return;
-  }
-  const params = {
+function getSearchResults(search, type, year) {
+  const url = createRequestUrl({
     s: search,
     type: type,
     y: year,
-    apikey: import.meta.env.VITE_API_KEY,
-  };
-
-  const url =
-    import.meta.env.VITE_API_URL +
-    '/?' +
-    new URLSearchParams(params).toString();
+  });
 
   fetch(url)
     .then((response) => {
@@ -51,18 +48,12 @@ const debouncedSearch = debounce((search, type, year) => {
     .catch((error) => {
       console.error('Error fetching data:', error);
     });
-}, 600);
+}
 
-const debouncedGetById = debounce((imdbId) => {
-  const params = {
-    i: imdbId,
-    apikey: import.meta.env.VITE_API_KEY,
-  };
-
-  const url =
-    import.meta.env.VITE_API_URL +
-    '/?' +
-    new URLSearchParams(params).toString();
+function getMovieById(id) {
+  const url = createRequestUrl({
+    i: id,
+  });
 
   fetch(url)
     .then((response) => {
@@ -70,30 +61,32 @@ const debouncedGetById = debounce((imdbId) => {
     })
     .then((data) => {
       if (data.Response === 'False') {
-        selectionStatus.value = data.Error;
-        selectedResult.value = {};
+        selectedMovie.value = {};
       } else {
-        selectionStatus.value = defaultSelectionStatus;
-        selectedResult.value = data;
-        showSelection.value = true;
+        selectedMovie.value = data;
+        showMovieDetails.value = true;
       }
     })
     .catch((error) => {
       console.error('Error fetching data:', error);
     });
+}
+
+const handleSearch = debounce((search, type, year) => {
+  if (!search) {
+    clearSearch();
+    return;
+  }
+  getSearchResults(search, type, year);
+}, 600);
+
+const handleSelect = debounce((id) => {
+  getMovieById(id);
 }, 100);
 
-function handleSearch(search, type, year) {
-  debouncedSearch(search, type, year);
-}
-
-function handleSelection(imdbId) {
-  debouncedGetById(imdbId);
-}
-
 function handleCloseDetails() {
-  selectedResult.value = {};
-  showSelection.value = false;
+  selectedMovie.value = {};
+  showMovieDetails.value = false;
 }
 </script>
 
@@ -115,21 +108,21 @@ function handleCloseDetails() {
       <div class="grid grid-cols-11">
         <div
           :class="
-            showSelection ? 'hidden lg:col-span-4 lg:block' : 'col-span-11'
+            showMovieDetails ? 'hidden lg:col-span-4 lg:block' : 'col-span-11'
           "
           class="row-span-1 h-fit"
         >
           <SearchStatus :status="searchStatus" />
           <SearchResults
             :results="searchResults"
-            :selected-result="selectedResult.imdbID"
-            @selection="handleSelection"
+            :selected-result="selectedMovie.imdbID"
+            @selection="handleSelect"
           />
         </div>
         <MovieDetails
-          v-if="showSelection"
+          v-if="showMovieDetails"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
-          :movie="selectedResult"
+          :movie="selectedMovie"
           @close="handleCloseDetails"
         />
       </div>
