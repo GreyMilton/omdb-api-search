@@ -1,16 +1,17 @@
 <script setup>
 import { ref } from 'vue';
+import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 
 const searchResults = ref([]);
 const searchError = ref('');
 
-function handleSearch(latestSearch) {
+const handleSearch = debounce((search) => {
   fetch(
     import.meta.env.VITE_API_URL +
       '/?' +
       new URLSearchParams({
-        s: latestSearch,
+        s: search,
         apikey: import.meta.env.VITE_API_KEY,
       }).toString(),
   )
@@ -29,7 +30,7 @@ function handleSearch(latestSearch) {
     .catch((error) => {
       console.error('Error fetching data:', error);
     });
-}
+}, 600);
 </script>
 
 <template>
