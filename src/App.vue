@@ -2,10 +2,11 @@
 import { ref } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
+import SearchStatus from './components/SearchStatus.vue';
 import SearchResults from './components/SearchResults.vue';
 
 const searchResults = ref([]);
-const searchError = ref('');
+const searchStatus = ref('Ready to search.');
 
 const handleSearch = debounce((search) => {
   fetch(
@@ -21,11 +22,11 @@ const handleSearch = debounce((search) => {
     })
     .then((data) => {
       if (data.Response === 'False') {
-        searchError.value = data.Error;
+        searchStatus.value = data.Error;
         searchResults.value = [];
       } else {
-        searchError.value = '';
         searchResults.value = data.Search;
+        searchStatus.value = data.totalResults + ' results found';
       }
     })
     .catch((error) => {
@@ -49,6 +50,7 @@ const handleSearch = debounce((search) => {
         class="flex-shrink-0"
         @search="handleSearch"
       />
+      <SearchStatus :status="searchStatus" />
       <SearchResults :results="searchResults" />
     </section>
   </main>
