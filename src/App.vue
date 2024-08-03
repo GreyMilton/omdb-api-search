@@ -9,15 +9,19 @@ const defaultSearchStatus = 'Ready to search.';
 const searchResults = ref([]);
 const searchStatus = ref(defaultSearchStatus);
 
-const handleSearch = debounce((search) => {
-  fetch(
+const handleSearch = debounce((search, type) => {
+  const params = {
+    s: search,
+    type: type,
+    apikey: import.meta.env.VITE_API_KEY,
+  };
+
+  const url =
     import.meta.env.VITE_API_URL +
-      '/?' +
-      new URLSearchParams({
-        s: search,
-        apikey: import.meta.env.VITE_API_KEY,
-      }).toString(),
-  )
+    '/?' +
+    new URLSearchParams(params).toString();
+
+  fetch(url)
     .then((response) => {
       return response.json();
     })

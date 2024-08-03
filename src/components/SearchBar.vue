@@ -7,16 +7,37 @@ const emit = defineEmits(['search', 'clear']);
 
 const search = ref('');
 
+const types = [
+  {
+    value: '',
+    label: 'any',
+  },
+  {
+    value: 'movie',
+    label: 'movies',
+  },
+  {
+    value: 'series',
+    label: 'series',
+  },
+  {
+    value: 'episode',
+    label: 'episodes',
+  },
+];
+const type = ref(types[0].value);
+
 watch(search, (newSearch) => {
   if (newSearch) {
-    emit('search', newSearch);
+    emit('search', newSearch, type.value);
   } else {
     emit('clear');
   }
 });
 
-const types = ['any', 'movies', 'series', 'episode'];
-const type = ref(types[0]);
+watch(type, (newType) => {
+  emit('search', search.value, newType);
+});
 </script>
 
 <template>

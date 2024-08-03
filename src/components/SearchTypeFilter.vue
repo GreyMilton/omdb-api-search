@@ -25,7 +25,7 @@ const model = defineModel({
           :id="'type-' + index"
           v-model="model"
           type="radio"
-          :value="type"
+          :value="type.value"
           class="peer h-4 w-4 appearance-none rounded-full border-2 border-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
         />
         <div
@@ -35,7 +35,7 @@ const model = defineModel({
         <label
           :for="'type-' + index"
           class="px-2 py-0.5 capitalize"
-          >{{ type }}</label
+          >{{ type.label }}</label
         >
       </div>
     </div>
