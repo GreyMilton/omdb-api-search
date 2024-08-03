@@ -20,7 +20,7 @@ function handleClear() {
 </script>
 
 <template>
-  <div class="flex items-center pr-4">
+  <div class="flex items-center pr-4 lg:pr-0">
     <label
       for="search-input"
       aria-hidden="true"

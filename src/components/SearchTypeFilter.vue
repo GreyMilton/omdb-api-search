@@ -15,7 +15,7 @@ const model = defineModel({
 <template>
   <fieldset class="text-sm font-extralight text-white">
     <legend class="uppercase">Type</legend>
-    <div class="flex flex-row gap-2">
+    <div class="flex flex-col min-[380px]:flex-row sm:gap-2">
       <div
         v-for="(type, index) in types"
         :key="index"

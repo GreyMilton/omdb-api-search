@@ -32,7 +32,7 @@ const enabled = defineModel('enabled', {
         min="1925"
         max="2024"
         step="1"
-        class="w-36"
+        class="w-32"
         :disabled="!enabled"
       />
       <p class="w-8">{{ year }}</p>

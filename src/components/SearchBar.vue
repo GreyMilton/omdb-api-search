@@ -63,14 +63,14 @@ watch(yearEnabled, () => {
 
 <template>
   <div
-    class="flex flex-col justify-between bg-omdb-grey px-2 pt-5 lg:h-24 lg:flex-row lg:items-center lg:pt-0"
+    class="flex grid-cols-11 flex-col justify-between bg-omdb-grey px-2 pt-5 lg:grid lg:h-24 lg:pt-0"
   >
     <SearchInput
       v-model="search"
-      class="w-full lg:w-5/12"
+      class="w-full lg:col-span-4"
     />
     <div
-      class="flex flex-col justify-between gap-6 p-5 md:flex-row md:items-center lg:justify-start"
+      class="flex flex-col justify-between gap-4 p-5 md:flex-row md:items-center md:justify-end md:gap-10 lg:col-span-7 lg:justify-end lg:gap-6"
     >
       <SearchYearFilter
         v-model:year="year"
