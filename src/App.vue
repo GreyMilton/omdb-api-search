@@ -50,7 +50,7 @@ function handleClear() {
 
   <main class="grow bg-zinc-100 pb-20">
     <section
-      class="mx-4 flex h-[700px] max-w-[1152px] flex-col border border-zinc-300 bg-white sm:mx-14 xl:m-auto"
+      class="mx-4 flex max-h-[700px] max-w-[1152px] flex-col border border-zinc-300 bg-white sm:mx-14 xl:m-auto"
     >
       <SearchBar
         class="flex-shrink-0"
