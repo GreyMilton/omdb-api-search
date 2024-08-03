@@ -18,7 +18,9 @@ function handleSearch(latestSearch) {
   </header>
 
   <main class="grow bg-gray-100 pb-20">
-    <section class="m-auto h-[700px] w-[1152px] border bg-white">
+    <section
+      class="mx-4 h-[700px] max-w-[1152px] border bg-white sm:mx-14 xl:m-auto"
+    >
       <SearchBar @search="handleSearch" />
     </section>
   </main>
