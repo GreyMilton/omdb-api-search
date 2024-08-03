@@ -1,19 +1,10 @@
 <script setup>
-import { watch } from 'vue';
-
-const props = defineProps({
+defineProps({
   results: {
     type: Array,
     required: true,
   },
 });
-
-watch(
-  () => props.results,
-  (newResults) => {
-    console.log(newResults);
-  },
-);
 </script>
 
 <template>
