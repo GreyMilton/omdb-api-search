@@ -12,7 +12,7 @@ defineProps({
     <li
       v-for="result in results"
       :key="result.imdbId"
-      class="border-b border-zinc-300 last:border-none"
+      class="border-t border-zinc-300 first:border-none"
     >
       <article>
         <button
