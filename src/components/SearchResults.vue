@@ -14,9 +14,7 @@ defineEmits(['selection']);
 </script>
 
 <template>
-  <ul
-    class="scrollbar overflow-auto sm:max-h-[906px] md:max-h-[658px] lg:max-h-[560px]"
-  >
+  <ul class="scrollbar overflow-auto sm:h-[906px] md:h-[658px] lg:h-[560px]">
     <li
       v-for="result in results"
       :key="result.imdbID"
