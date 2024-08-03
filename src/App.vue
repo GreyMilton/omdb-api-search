@@ -26,7 +26,7 @@ const handleSearch = debounce((search) => {
         searchResults.value = [];
       } else {
         searchResults.value = data.Search;
-        searchStatus.value = data.totalResults + ' results found';
+        searchStatus.value = data.totalResults + ' results found.';
       }
     })
     .catch((error) => {
