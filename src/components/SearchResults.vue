@@ -22,21 +22,23 @@ watch(
       v-for="result in results"
       :key="result.imdbId"
     >
-      <article
-        class="flex items-center gap-3.5 border-t border-zinc-300 p-7 hover:bg-zinc-100"
-      >
-        <img
-          :src="result.Poster"
-          class="h-16 w-16 rounded-md object-cover object-center"
-        />
-        <div class="pb-1.5">
-          <h1 class="text-lg font-extralight">
-            {{ result.Title }}
-          </h1>
-          <p class="text-sm font-extralight text-omdb-grey">
-            {{ result.Year }}
-          </p>
-        </div>
+      <article class="border-t border-zinc-300">
+        <button
+          class="flex w-full items-center gap-3.5 p-7 ring-inset hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-omdb-grey"
+        >
+          <img
+            :src="result.Poster"
+            class="h-16 w-16 rounded-md object-cover object-center"
+          />
+          <div class="pb-1.5">
+            <h1 class="text-left text-lg font-extralight">
+              {{ result.Title }}
+            </h1>
+            <p class="text-left text-sm font-extralight text-omdb-grey">
+              {{ result.Year }}
+            </p>
+          </div>
+        </button>
       </article>
     </li>
   </ul>
