@@ -84,7 +84,7 @@ const handleSelection = debounce((imdbId) => {
     });
 }, 100);
 
-function handleBack() {
+function handleClose() {
   selectedResult.value = {};
   showSelection.value = false;
 }
@@ -124,7 +124,7 @@ function handleBack() {
           v-if="showSelection"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedResult"
-          @back="handleBack"
+          @close="handleClose"
         />
       </div>
     </section>
