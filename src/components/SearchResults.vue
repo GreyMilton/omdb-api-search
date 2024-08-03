@@ -21,8 +21,9 @@ watch(
     <li
       v-for="result in results"
       :key="result.imdbId"
+      class="border-b border-zinc-300 last:border-none"
     >
-      <article class="border-t border-zinc-300">
+      <article>
         <button
           class="flex w-full items-center gap-3.5 p-7 ring-inset hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-omdb-grey"
         >
