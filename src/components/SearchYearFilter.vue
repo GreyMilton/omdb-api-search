@@ -8,6 +8,8 @@ const enabled = defineModel('enabled', {
   type: Boolean,
   required: true,
 });
+
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -29,8 +31,8 @@ const enabled = defineModel('enabled', {
         id="year-input"
         v-model="year"
         type="range"
-        min="1925"
-        max="2024"
+        min="1900"
+        :max="currentYear"
         step="1"
         class="w-32 p-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
         :disabled="!enabled"
