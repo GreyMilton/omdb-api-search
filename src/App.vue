@@ -2,11 +2,33 @@
 import { ref } from 'vue';
 import SearchBar from './components/SearchBar.vue';
 
-const search = ref('');
+const searchResults = ref([]);
+const searchError = ref('');
 
 function handleSearch(latestSearch) {
-  search.value = latestSearch;
-  console.log(search.value);
+  fetch(
+    import.meta.env.VITE_API_URL +
+      '/?' +
+      new URLSearchParams({
+        s: latestSearch,
+        apikey: import.meta.env.VITE_API_KEY,
+      }).toString(),
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data.Response === 'False') {
+        searchError.value = data.Error;
+        searchResults.value = [];
+      } else {
+        searchError.value = '';
+        searchResults.value = data.Search;
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
 }
 </script>
 
