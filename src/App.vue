@@ -35,15 +35,15 @@ const handleSearch = debounce((search) => {
 </script>
 
 <template>
-  <header class="bg-gray-100">
+  <header class="bg-zinc-100">
     <h1 class="p-8 text-center font-serif text-3xl text-omdb-grey">
       Movie Search
     </h1>
   </header>
 
-  <main class="grow bg-gray-100 pb-20">
+  <main class="grow bg-zinc-100 pb-20">
     <section
-      class="mx-4 flex h-[700px] max-w-[1152px] flex-col border bg-white sm:mx-14 xl:m-auto"
+      class="mx-4 flex h-[700px] max-w-[1152px] flex-col border border-zinc-300 bg-white sm:mx-14 xl:m-auto"
     >
       <SearchBar
         class="flex-shrink-0"

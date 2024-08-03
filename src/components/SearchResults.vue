@@ -23,7 +23,7 @@ watch(
       :key="result.imdbId"
     >
       <article
-        class="flex items-center gap-3.5 border-t border-gray-400 p-7 hover:bg-zinc-100"
+        class="flex items-center gap-3.5 border-t border-zinc-300 p-7 hover:bg-zinc-100"
       >
         <img
           :src="result.Poster"
