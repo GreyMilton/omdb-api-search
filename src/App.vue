@@ -313,9 +313,9 @@ function closeWatchlist() {
   </header>
 
   <!-- Main Content -->
-  <main class="grow bg-zinc-100 pb-20">
+  <main class="grow bg-zinc-100 pb-20 xl:px-20">
     <section
-      class="mx-4 flex max-w-[1152px] flex-col border border-zinc-300 bg-white sm:mx-14 xl:m-auto"
+      class="mx-4 flex max-w-[1300px] flex-col border border-zinc-300 bg-white sm:mx-14 xl:mx-auto"
     >
       <!-- Search Bar -->
       <SearchBar
