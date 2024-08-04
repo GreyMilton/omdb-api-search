@@ -9,6 +9,11 @@ import MovieDetails from './components/MovieDetails.vue';
 import MovieWatchlist from './components/MovieWatchlist.vue';
 
 /**
+ * The name of the app. Displayed in the main heading of the page.
+ */
+const appName = import.meta.env.VITE_APP_NAME;
+
+/**
  * The default status message displayed when the application is ready to search.
  *
  * @constant {string}
@@ -304,7 +309,7 @@ function closeWatchlist() {
   <!-- Header Section -->
   <header class="bg-zinc-100">
     <h1 class="p-8 text-center font-serif text-3xl text-omdb-grey">
-      Movie Search
+      {{ appName }}
     </h1>
   </header>
 
