@@ -171,6 +171,7 @@ const debouncedSearch = debounce((search, type, year) => {
  */
 function handleSearch(search, type, year) {
   currentStatus.value = search ? 'Searching' : 'Clearing search';
+  closeWatchlist();
   debouncedSearch(search, type, year);
 }
 
@@ -271,10 +272,31 @@ function handleRemoveFromWatchlist(id) {
  * Toggles the watchlist and sets the current status.
  */
 function handleToggleWatchlist() {
-  showWatchlist.value = !showWatchlist.value;
-  currentStatus.value = showWatchlist.value
-    ? 'Viewing watchlist'
-    : 'Closed watchlist.';
+  if (showWatchlist.value) {
+    closeWatchlist();
+  } else {
+    openWatchlist();
+  }
+}
+
+/**
+ * Opens the watchlist view, and sets the status.
+ */
+function openWatchlist() {
+  if (!showWatchlist.value) {
+    showWatchlist.value = true;
+    currentStatus.value = 'Viewing watchlist.';
+  }
+}
+
+/**
+ * Closes the watchlist view, and sets the status.
+ */
+function closeWatchlist() {
+  if (showWatchlist.value) {
+    showWatchlist.value = false;
+    currentStatus.value = 'Closed watchlist.';
+  }
 }
 </script>
 
