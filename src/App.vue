@@ -12,6 +12,7 @@ const currentStatus = ref(defaultStatus);
 const searchResults = ref([]);
 const showMovieDetails = ref(false);
 const selectedMovie = ref({});
+const watchlist = ref([]);
 
 const errorMap = {
   'Movie not found!': '0 results found.',
@@ -115,6 +116,15 @@ function handleCloseDetails() {
   showMovieDetails.value = false;
   currentStatus.value = 'Details closed.';
 }
+
+function handleToggleOnWatchlist(id) {
+  if (watchlist.value.includes(id)) {
+    const index = watchlist.value.indexOf(id);
+    watchlist.value.splice(index, 1);
+  } else {
+    watchlist.value.push(id);
+  }
+}
 </script>
 
 <template>
@@ -150,7 +160,9 @@ function handleCloseDetails() {
           v-if="showMovieDetails"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedMovie"
+          :watchlist="watchlist"
           @close="handleCloseDetails"
+          @toggle-on-watchlist="handleToggleOnWatchlist"
         />
       </div>
     </section>
