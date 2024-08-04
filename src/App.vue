@@ -169,14 +169,15 @@ const debouncedSearch = debounce((search, type, year) => {
 /**
  * Handles the search event triggered by the SearchBar component.
  * Updates the current status and performs a debounced search request.
+ * Closes the watchlist if it is open.
  *
  * @param {string} search - The search query entered by the user.
  * @param {string} type - The type of title to search for.
  * @param {string|number} year - The year of release for the title.
  */
 function handleSearch(search, type, year) {
-  currentStatus.value = search ? 'Searching' : 'Clearing search';
   closeWatchlist();
+  currentStatus.value = search ? 'Searching' : 'Clearing search';
   debouncedSearch(search, type, year);
 }
 
