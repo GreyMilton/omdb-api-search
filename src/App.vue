@@ -2,12 +2,12 @@
 import { ref } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
-import SearchStatus from './components/SearchStatus.vue';
+import StatusBar from './components/StatusBar.vue';
 import SearchResults from './components/SearchResults.vue';
 import MovieDetails from './components/MovieDetails.vue';
 
-const defaultSearchStatus = 'Ready to search.';
-const searchStatus = ref(defaultSearchStatus);
+const defaultStatus = 'Ready to search.';
+const currentStatus = ref(defaultStatus);
 const searchResults = ref([]);
 const showMovieDetails = ref(false);
 const selectedMovie = ref({});
@@ -27,7 +27,7 @@ function createErrorMessage(error) {
 
 function clearSearch() {
   searchResults.value = [];
-  searchStatus.value = defaultSearchStatus;
+  currentStatus.value = defaultStatus;
   showMovieDetails.value = false;
 }
 
@@ -51,15 +51,15 @@ function getSearchResults(search, type, year) {
     })
     .then((data) => {
       if (data.Response === 'False') {
-        searchStatus.value = createErrorMessage(data.Error);
+        currentStatus.value = createErrorMessage(data.Error);
         searchResults.value = [];
       } else {
         searchResults.value = data.Search;
-        searchStatus.value = data.totalResults + ' results found.';
+        currentStatus.value = data.totalResults + ' results found.';
       }
     })
     .catch((error) => {
-      searchStatus.value = createErrorMessage(error.message);
+      currentStatus.value = createErrorMessage(error.message);
     });
 }
 
@@ -72,7 +72,7 @@ const debouncedSearch = debounce((search, type, year) => {
 }, 600);
 
 function handleSearch(search, type, year) {
-  searchStatus.value = search ? 'Searching' : 'Clearing search';
+  currentStatus.value = search ? 'Searching' : 'Clearing search';
   debouncedSearch(search, type, year);
 }
 
@@ -89,15 +89,15 @@ function getMovie(id) {
       if (data.Response === 'False') {
         selectedMovie.value = {};
         showMovieDetails.value = false;
-        searchStatus.value = createErrorMessage(data.Error);
+        currentStatus.value = createErrorMessage(data.Error);
       } else {
         selectedMovie.value = data;
         showMovieDetails.value = true;
-        searchStatus.value = 'Details retrieved.';
+        currentStatus.value = 'Details retrieved.';
       }
     })
     .catch((error) => {
-      searchStatus.value = createErrorMessage(error.message);
+      currentStatus.value = createErrorMessage(error.message);
       showMovieDetails.value = false;
     });
 }
@@ -107,14 +107,14 @@ const debouncedGetMovie = debounce((id) => {
 }, 100);
 
 function handleSelect(id) {
-  searchStatus.value = 'Getting details';
+  currentStatus.value = 'Getting details';
   debouncedGetMovie(id);
 }
 
 function handleCloseDetails() {
   selectedMovie.value = {};
   showMovieDetails.value = false;
-  searchStatus.value = 'Details closed.';
+  currentStatus.value = 'Details closed.';
 }
 </script>
 
@@ -140,7 +140,7 @@ function handleCloseDetails() {
           "
           class="row-span-1 h-fit"
         >
-          <SearchStatus :status="searchStatus" />
+          <StatusBar :status="currentStatus" />
           <SearchResults
             :results="searchResults"
             :selected-result="selectedMovie.imdbID"
