@@ -50,7 +50,7 @@ const currentYear = new Date().getFullYear();
         v-model="enabled"
         type="checkbox"
         aria-label="Enable year filter"
-        class="h-3.5 w-3.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
+        class="h-3.5 w-3.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
       />
 
       <!-- Year Range Input -->
@@ -61,7 +61,7 @@ const currentYear = new Date().getFullYear();
         min="1900"
         :max="currentYear"
         step="1"
-        class="w-32 p-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
+        class="w-32 p-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
         :disabled="!enabled"
       />
 

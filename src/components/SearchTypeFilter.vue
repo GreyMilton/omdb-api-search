@@ -40,7 +40,7 @@ const model = defineModel({
           v-model="model"
           type="radio"
           :value="type.value"
-          class="peer h-4 w-4 appearance-none rounded-full border-2 border-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
+          class="peer h-4 w-4 appearance-none rounded-full border-2 border-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
         />
         <!-- Radio Dot -->
         <div

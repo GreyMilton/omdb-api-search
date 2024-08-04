@@ -81,7 +81,7 @@ function handleClickWatchlist() {
   >
     <!-- Buttons to close the movie details view -->
     <button
-      class="absolute right-1 top-1 hidden rounded-full p-2 text-sm hover:bg-zinc-100 focus-visible:bg-zinc-50 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:block"
+      class="absolute right-1 top-1 hidden rounded-full p-2 text-sm hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300 active:bg-zinc-200 lg:block"
       aria-label="Close"
       @click="$emit('close')"
     >
@@ -91,7 +91,7 @@ function handleClickWatchlist() {
       />
     </button>
     <button
-      class="my-3 block p-2 text-sm underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
+      class="my-3 block p-2 text-sm underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300 active:bg-zinc-200 lg:hidden"
       @click="$emit('close')"
     >
       Go back
@@ -108,7 +108,7 @@ function handleClickWatchlist() {
         <!-- Button to toggle movie on/off watchlist -->
         <button
           aria-label="Toggle on/off watchlist"
-          class="flex items-center justify-center gap-2 self-end rounded-[4px] border px-3 py-2.5 font-normal focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300"
+          class="flex items-center justify-center gap-2 self-end rounded-[4px] border px-3 py-2.5 font-normal focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300"
           :class="
             watchlist.includes(movie.imdbID)
               ? 'border-yellow-500 bg-amber-50 text-yellow-600 hover:bg-[#fff7d7] active:bg-yellow-50'

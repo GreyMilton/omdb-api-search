@@ -93,7 +93,7 @@ const dots = computed(() => {
     </p>
     <!-- View Watchlist Button -->
     <button
-      class="p-2 underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200"
+      class="p-2 underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300 active:bg-zinc-200"
       @click="$emit('toggle-watchlist')"
     >
       {{ showingWatchlist ? 'Close watchlist' : 'View watchlist' }}
