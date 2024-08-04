@@ -50,7 +50,7 @@ I created mock Jira issues for tracking git commits, mimicking a real world clie
 11. Improve interactivity with the API (OMDB-11)
 12. Use Axios instead of Fetch API (OMDB-12)
 13. Store movies in watchlist (OMDB-13)
-14. Display watchlist titles only (OMDB-14)
+14. Display watchlist - show/hide (OMDB-14)
 15. Miscellaneous improvements (OMDB-15)
 
 ## Possible Future Enhancements
