@@ -121,16 +121,16 @@ watch(yearEnabled, () => {
 <template>
   <!-- Main Container -->
   <div
-    class="flex grid-cols-11 flex-col justify-between bg-omdb-grey px-2 pt-5 lg:grid lg:h-24 lg:pt-0"
+    class="flex flex-col justify-between bg-omdb-grey px-2 pt-5 lg:grid lg:h-24 lg:grid-cols-10 lg:pt-0 min-[1080px]:grid-cols-12 min-[1122px]:grid-cols-11"
   >
     <!-- Search Input -->
     <SearchInput
       v-model="search"
-      class="w-full lg:col-span-4"
+      class="w-full lg:col-span-3 min-[1080px]:col-span-4"
     />
     <!-- Filters Section -->
     <div
-      class="flex flex-col justify-between gap-4 p-5 md:flex-row md:items-center md:justify-end md:gap-10 lg:col-span-7 lg:justify-end lg:gap-6"
+      class="flex flex-col justify-between gap-4 p-5 md:flex-row md:items-center md:justify-end md:gap-10 lg:col-span-7 lg:justify-end lg:gap-6 min-[1080px]:col-span-8 min-[1122px]:col-span-7"
     >
       <!-- Year Filter -->
       <SearchYearFilter

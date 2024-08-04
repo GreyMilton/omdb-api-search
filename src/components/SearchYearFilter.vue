@@ -43,30 +43,44 @@ const currentYear = new Date().getFullYear();
     >
 
     <!-- Inputs Container -->
-    <div class="flex items-center gap-2">
-      <!-- Enable Year Filter Checkbox -->
-      <input
-        id="enable-year"
-        v-model="enabled"
-        type="checkbox"
-        aria-label="Enable year filter"
-        class="h-3.5 w-3.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
-      />
+    <div
+      class="flex flex-wrap-reverse items-center gap-x-2 text-xs sm:flex-nowrap"
+    >
+      <div class="flex items-center gap-2">
+        <!-- Enable Year Label -->
+        <label
+          for="enable-year"
+          class="uppercase"
+          aria-hidden="true"
+          >enable</label
+        >
 
-      <!-- Year Range Input -->
-      <input
-        id="year-input"
-        v-model="year"
-        type="range"
-        min="1900"
-        :max="currentYear"
-        step="1"
-        class="w-32 p-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
-        :disabled="!enabled"
-      />
+        <!-- Enable Year Filter Checkbox -->
+        <input
+          id="enable-year"
+          v-model="enabled"
+          type="checkbox"
+          aria-label="Enable year filter"
+          class="h-3.5 w-3.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+        />
+      </div>
 
-      <!-- Year Display -->
-      <p class="w-8">{{ year }}</p>
+      <div class="flex items-center gap-2">
+        <!-- Year Range Input -->
+        <input
+          id="year-input"
+          v-model="year"
+          type="range"
+          min="1900"
+          :max="currentYear"
+          step="1"
+          class="w-32 p-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+          :disabled="!enabled"
+        />
+
+        <!-- Year Display -->
+        <p class="w-8">{{ year }}</p>
+      </div>
     </div>
   </div>
 </template>
