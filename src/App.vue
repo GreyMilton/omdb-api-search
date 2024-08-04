@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue';
 import axios from 'axios';
+import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 import StatusBar from './components/StatusBar.vue';
 import SearchResults from './components/SearchResults.vue';
 import MovieDetails from './components/MovieDetails.vue';
+import MovieWatchlist from './components/MovieWatchlist.vue';
 
 /**
  * The default status message displayed when the application is ready to search.
@@ -43,11 +44,27 @@ const showMovieDetails = ref(false);
 const selectedMovie = ref({});
 
 /**
- * A reactive reference that holds an array of IMDb IDs representing the user's watchlist.
+ * A reactive reference that holds an array of search result records representing the user's watchlist.
  *
  * @type {import('vue').Ref<Array<string>>}
  */
 const watchlist = ref([]);
+
+/**
+ * A computed property that returns an array of the imdbIDs of all movies in the watchlist.
+ *
+ * @type {import('vue').ComputedRef<string>}
+ */
+const watchlistIds = computed(() => {
+  return watchlist.value.map((movie) => movie.imdbID);
+});
+
+/**
+ * A reactive reference to determine if the movie watchlist view should be displayed.
+ *
+ * @type {import('vue').Ref<boolean>}
+ */
+const showWatchlist = ref(false);
 
 /**
  * An object mapping error messages from the API to user-friendly messages.
@@ -219,17 +236,45 @@ function handleCloseDetails() {
 }
 
 /**
- * Toggles the inclusion of a movie in the user's watchlist based on its IMDb ID.
+ * Handles the event to add a movie to the user's watchlist.
+ * Adds the movie to the watchlist.
  *
- * @param {string} id - The IMDb ID of the movie to toggle in the watchlist.
+ * @param {object} movie - The movie object to add to the watchlist.
+ * @param {string} movie.Poster - URL of the movie poster.
+ * @param {string} movie.Title - The title of the movie.
+ * @param {string} movie.Type - The type of the movie. Can be 'movie', 'series', or 'episode'.
+ * @param {string} movie.Year - The release year of the movie.
+ * @param {string} movie.imdbID - The IMDb ID of the movie.
  */
-function handleToggleOnWatchlist(id) {
-  if (watchlist.value.includes(id)) {
-    const index = watchlist.value.indexOf(id);
-    watchlist.value.splice(index, 1);
-  } else {
-    watchlist.value.push(id);
+function handleAddToWatchlist(movie) {
+  console.log(movie);
+  if (!watchlistIds.value.includes(movie.imdbID)) {
+    watchlist.value.push(movie);
   }
+}
+
+/**
+ * Handles the event to remove a movie from the user's watchlist.
+ * Removes the movie from the watchlist.
+ *
+ * @param {string} id - The IMDb ID of the movie to remove from the watchlist.
+ */
+function handleRemoveFromWatchlist(id) {
+  if (watchlistIds.value.includes(id)) {
+    const index = watchlistIds.value.indexOf(id);
+    watchlist.value.splice(index, 1);
+  }
+}
+
+/**
+ * Handles the event to toggle the viewing and closing of the movie watchlist.
+ * Toggles the watchlist and sets the current status.
+ */
+function handleToggleWatchlist() {
+  showWatchlist.value = !showWatchlist.value;
+  currentStatus.value = showWatchlist.value
+    ? 'Viewing watchlist'
+    : 'Closed watchlist.';
 }
 </script>
 
@@ -261,11 +306,24 @@ function handleToggleOnWatchlist(id) {
           class="row-span-1 h-fit"
         >
           <!-- Status Bar -->
-          <StatusBar :status="currentStatus" />
+          <StatusBar
+            :status="currentStatus"
+            :showing-watchlist="showWatchlist"
+            @toggle-watchlist="handleToggleWatchlist"
+          />
+
+          <!-- Movie Watchlist -->
+          <MovieWatchlist
+            v-if="showWatchlist"
+            :watchlist="watchlist"
+            :selected-movie="selectedMovie.imdbID"
+            @selection="handleSelect"
+          />
 
           <!-- Search Results -->
           <SearchResults
-            :watchlist="watchlist"
+            v-else
+            :watchlist="watchlistIds"
             :results="searchResults"
             :selected-result="selectedMovie.imdbID"
             @selection="handleSelect"
@@ -277,9 +335,10 @@ function handleToggleOnWatchlist(id) {
           v-if="showMovieDetails"
           class="col-span-11 row-span-1 lg:col-span-7 lg:max-h-[666px]"
           :movie="selectedMovie"
-          :watchlist="watchlist"
+          :watchlist="watchlistIds"
           @close="handleCloseDetails"
-          @toggle-on-watchlist="handleToggleOnWatchlist"
+          @add-to-watchlist="handleAddToWatchlist"
+          @remove-from-watchlist="handleRemoveFromWatchlist"
         />
       </div>
     </section>

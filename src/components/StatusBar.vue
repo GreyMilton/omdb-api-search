@@ -5,21 +5,26 @@ import { ref, computed, onUnmounted } from 'vue';
  * Props for the component.
  *
  * @typedef {Object} Props
- * @property {string} status - The current status of the application. It can be 'Searching', 'Clearing search', or 'Getting details'.
+ * @property {string} status - The current status of the application.
+ * @property {boolean} showingWatchlist - The current state of whether the watchlist is showing.
  */
 const props = defineProps({
   status: {
     type: String,
     required: true,
   },
+  showingWatchlist: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 /**
- * Emits an event to notify the parent component to view the watchlist.
+ * Emits an event to notify the parent component to toggle viewing the watchlist.
  *
- * @event view-watchlist
+ * @event toggle-watchlist
  */
-defineEmits(['view-watchlist']);
+defineEmits(['toggle-watchlist']);
 
 /**
  * A computed property to determine if the application is in a loading state.
@@ -89,9 +94,9 @@ const dots = computed(() => {
     <!-- View Watchlist Button -->
     <button
       class="p-2 underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200"
-      @click="$emit('view-watchlist')"
+      @click="$emit('toggle-watchlist')"
     >
-      View watchlist
+      {{ showingWatchlist ? 'Close watchlist' : 'View watchlist' }}
     </button>
   </div>
 </template>

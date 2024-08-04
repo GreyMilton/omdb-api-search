@@ -16,9 +16,10 @@ import BookmarkIcon from './icons/BookmarkIcon.vue';
  * @property {string} movie.Plot - A brief plot description of the movie.
  * @property {Array<{Source: string, Value: string}>} movie.Ratings - An array of ratings from different sources.
  * @property {string} movie.imdbID - The IMDb ID of the movie.
+ * @property {string} movie.Type - The type of the movie. Can be 'movie', 'series', or 'episode'.
  * @property {Array<string>} watchlist - The current watchlist of movies, as an array of IMDb IDs.
  */
-defineProps({
+const props = defineProps({
   movie: {
     type: Object,
     required: true,
@@ -29,26 +30,56 @@ defineProps({
   },
 });
 
-defineEmits([
+const emit = defineEmits([
   /**
    * Emitted to close the movie details view.
    * @event close
    */
   'close',
   /**
-   * Emitted to add or remove this movie from the watchlist.
-   * @event toggle-on-watchlist
-   * @param {string} imdbID - The IMDb ID of the movie to toggle.
+   * Emitted to add the movie from the watchlist.
+   * @event add-to-watchlist
+   * @param {object} movie - The movie object to add to the watchlist.
+   * @param {string} movie.Poster - URL of the movie poster.
+   * @param {string} movie.Title - The title of the movie.
+   * @param {string} movie.Type - The type of the movie. Can be 'movie', 'series', or 'episode'.
+   * @param {string} movie.Year - The release year of the movie.
+   * @param {string} movie.imdbID - The IMDb ID of the movie.
    */
-  'toggle-on-watchlist',
+  'add-to-watchlist',
+  /**
+   * Emitted to remove the movie from the watchlist.
+   * @event remove-from-watchlist
+   * @param {string} imdbID - The IMDb ID of the movie to remove.
+   */
+  'remove-from-watchlist',
 ]);
+
+/**
+ * Handles the button click to toggle the movie in the watchlist.
+ * If the watchlist already includes the movie, an event to remove from the watchlist is emitted.
+ * Otherwise, an event to add to the watchlist is emitted.
+ */
+function handleClickWatchlist() {
+  if (props.watchlist.includes(props.movie.imdbID)) {
+    emit('remove-from-watchlist', props.movie.imdbID);
+  } else {
+    emit('add-to-watchlist', {
+      Poster: props.movie.Poster,
+      Title: props.movie.Title,
+      Type: props.movie.Type,
+      Year: props.movie.Year,
+      imdbID: props.movie.imdbID,
+    });
+  }
+}
 </script>
 
 <template>
   <article
     class="relative border-l border-zinc-300 px-8 pb-8 pt-1 text-lg font-extralight lg:p-8"
   >
-    <!-- Button to close the movie details view -->
+    <!-- Buttons to close the movie details view -->
     <button
       class="absolute right-1 top-1 hidden rounded-full p-2 text-sm hover:bg-zinc-100 focus-visible:bg-zinc-50 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:block"
       aria-label="Close"
@@ -60,10 +91,10 @@ defineEmits([
       />
     </button>
     <button
-      class="my-3 block pb-2 pl-1 pr-2 pt-2 text-sm underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
+      class="my-3 block p-2 text-sm underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
       @click="$emit('close')"
     >
-      Back to results
+      Go back
     </button>
 
     <!-- Movie Details Section -->
@@ -74,6 +105,7 @@ defineEmits([
         class="flex-none overflow-hidden rounded-md object-cover sm:max-h-80 sm:max-w-52 sm:self-center"
       />
       <div class="flex grow flex-col justify-center gap-8 md:justify-start">
+        <!-- Button to toggle movie on/off watchlist -->
         <button
           aria-label="Toggle on/off watchlist"
           class="flex items-center justify-center gap-2 self-end rounded-[4px] border px-3 py-2.5 font-normal focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300"
@@ -82,7 +114,7 @@ defineEmits([
               ? 'border-yellow-500 bg-amber-50 text-yellow-600 hover:bg-[#fff7d7] active:bg-yellow-50'
               : 'border-black hover:bg-zinc-100 active:bg-zinc-50'
           "
-          @click="$emit('toggle-on-watchlist', movie.imdbID)"
+          @click="handleClickWatchlist"
         >
           <BookmarkIcon
             class="h-6 w-6 stroke-2"
