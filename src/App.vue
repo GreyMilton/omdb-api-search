@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 import StatusBar from './components/StatusBar.vue';
@@ -15,7 +16,7 @@ const selectedMovie = ref({});
 const errorMap = {
   'Movie not found!': '0 results found.',
   'Too many results.': 'Too many results. Keep typing.',
-  'Failed to fetch': 'Network error: Please check your internet connection',
+  'Network Error': 'Network error. Please check your internet connection',
 };
 
 function createErrorMessage(error) {
@@ -45,17 +46,16 @@ function getSearchResults(search, type, year) {
     y: year,
   });
 
-  fetch(url)
+  axios
+    .get(url)
     .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
+      const data = response.data;
       if (data.Response === 'False') {
         currentStatus.value = createErrorMessage(data.Error);
         searchResults.value = [];
       } else {
         searchResults.value = data.Search;
-        currentStatus.value = data.totalResults + ' results found.';
+        currentStatus.value = `${data.totalResults} results found.`;
       }
     })
     .catch((error) => {
@@ -81,11 +81,10 @@ function getMovie(id) {
     i: id,
   });
 
-  fetch(url)
+  axios
+    .get(url)
     .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
+      const data = response.data;
       if (data.Response === 'False') {
         selectedMovie.value = {};
         showMovieDetails.value = false;
