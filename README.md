@@ -1,12 +1,23 @@
 # omdb-api-search
 
-## Project Setup
+## What is this?
+
+This repo was built undertaking a fun challenge in interacting with an API and displaying data in a user friendly web-app. The API is an online movie database. The app allows for searching, filtering, viewing and adding results to a watchlist.
+
+## Local Project Setup
+
+### Versions Used
+
+- node.js v22.5.1
+- npm 10.8.2
+
+### Package Installation
 
 ```sh
 npm install
 ```
 
-### Create and populate `.env`
+### Create and Populate `.env`
 
 See `.env.example` for required variables.
 
@@ -22,11 +33,9 @@ npm run dev
 npm run build
 ```
 
-## What is this?
+## Development Process
 
-This repo was built undertaking a fun challenge in interacting with an API and displaying data.
-
-I tried to mimick a real world client/project scenario as best I could, by creating mock Jira issues for tracking git commits.
+I created mock Jira issues for tracking git commits, mimicking a real world client/project scenario. I generally followed them, and referenced the below "issue numbers" in the majority of my commits.
 
 1. Project setup (OMDB-1)
 2. Create search bar (OMDB-2)
@@ -42,7 +51,12 @@ I tried to mimick a real world client/project scenario as best I could, by creat
 12. Use Axios instead of Fetch API (OMDB-12)
 13. Store movies in watchlist (OMDB-13)
 14. Display watchlist titles only (OMDB-14)
-15. Filter serach by range of years (OMDB-15)
-16. Implement pagination or infinite scroll (OMDB-16)
+15. Miscellaneous improvements (OMDB-15)
 
-As of Sunday afternoon 4 August 2024, I am mid-way through OMDB-14.
+## Possible Future Enhancements
+
+I am happy with what I have done on this task, however in the future I would consider the below enhancements:
+
+- Automated testing. This would be my top priority.
+- Pagination or infinite scroll of search results. The API has some pagination functionality, but it is not very comprehensive. This may require some thought.
+- Filter search by range of years. The API does not provide this functionality, it only allows searching by one year at a time. This feature would therefore require looping through the years selected and making a query for each one, then handling errors as a group, and combining succesful queries together.
