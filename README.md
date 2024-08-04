@@ -35,7 +35,7 @@ npm run build
 
 ## Development Process
 
-I created mock Jira issues for tracking git commits, mimicking a real world client/project scenario. I generally followed them, and referenced the below "issue numbers" in the majority of my commits.
+I created mock Jira issues for tracking git commits, mimicking a real world client/project scenario. I referenced the below "issue numbers" in the majority of my commits.
 
 1. Project setup (OMDB-1)
 2. Create search bar (OMDB-2)
@@ -59,4 +59,4 @@ I am happy with what I have done on this task, however in the future I would con
 
 - Automated testing. This would be my top priority.
 - Pagination or infinite scroll of search results. The API has some pagination functionality, but it is not very comprehensive. This may require some thought.
-- Filter search by range of years. The API does not provide this functionality, it only allows searching by one year at a time. This feature would therefore require looping through the years selected and making a query for each one, then handling errors as a group, and combining succesful queries together.
+- Filter search by range of years. The API does not provide this functionality, it only allows searching by one year at a time. This feature would therefore require looping through the years selected and making a request to the API for each one, then handling errors as a group, and combining succesful responses together.
