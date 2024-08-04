@@ -2,6 +2,22 @@
 import CrossIcon from './icons/CrossIcon.vue';
 import BookmarkIcon from './icons/BookmarkIcon.vue';
 
+/**
+ * Props for the component.
+ * @typedef {Object} Props
+ * @property {Object} movie - The movie/series to display the details of.
+ * @property {string} movie.Title - The title of the movie.
+ * @property {string} movie.Poster - URL of the movie poster.
+ * @property {string} movie.Rated - The content rating of the movie.
+ * @property {string} movie.Year - The release year of the movie.
+ * @property {string} movie.Genre - The genre of the movie.
+ * @property {string} movie.Runtime - The runtime of the movie.
+ * @property {string} movie.Actors - The main actors in the movie.
+ * @property {string} movie.Plot - A brief plot description of the movie.
+ * @property {Array<{Source: string, Value: string}>} movie.Ratings - An array of ratings from different sources.
+ * @property {string} movie.imdbID - The IMDb ID of the movie.
+ * @property {Array<string>} watchlist - The current watchlist of movies, as an array of IMDb IDs.
+ */
 defineProps({
   movie: {
     type: Object,
@@ -13,13 +29,26 @@ defineProps({
   },
 });
 
-defineEmits(['close', 'toggle-on-watchlist']);
+defineEmits([
+  /**
+   * Emitted to close the movie details view.
+   * @event close
+   */
+  'close',
+  /**
+   * Emitted to add or remove this movie from the watchlist.
+   * @event toggle-on-watchlist
+   * @param {string} imdbID - The IMDb ID of the movie to toggle.
+   */
+  'toggle-on-watchlist',
+]);
 </script>
 
 <template>
   <article
     class="relative border-l border-zinc-300 px-8 pb-8 pt-1 text-lg font-extralight lg:p-8"
   >
+    <!-- Button to close the movie details view -->
     <button
       class="absolute right-1 top-1 hidden rounded-full p-2 text-sm hover:bg-zinc-100 focus-visible:bg-zinc-50 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:block"
       aria-label="Close"
@@ -36,9 +65,12 @@ defineEmits(['close', 'toggle-on-watchlist']);
     >
       Back to results
     </button>
+
+    <!-- Movie Details Section -->
     <div class="flex flex-col gap-10 pb-6 sm:flex-row sm:gap-4">
       <img
         :src="movie.Poster"
+        alt="Movie poster"
         class="flex-none overflow-hidden rounded-md object-cover sm:max-h-80 sm:max-w-52 sm:self-center"
       />
       <div class="flex grow flex-col justify-center gap-8 md:justify-start">
@@ -63,7 +95,9 @@ defineEmits(['close', 'toggle-on-watchlist']);
           Watchlist
         </button>
         <div class="space-y-3">
+          <!-- Movie Title -->
           <h1 class="text-4xl font-semibold">{{ movie.Title }}</h1>
+          <!-- Movie Metadata -->
           <p class="text-neutral-600">
             <span
               class="rounded-[4px] border border-black px-2.5 py-0.5 text-sm font-light leading-none text-black"
@@ -72,11 +106,14 @@ defineEmits(['close', 'toggle-on-watchlist']);
             {{ movie.Year }}&nbsp;&middot; {{ movie.Genre }}&nbsp;&middot;
             {{ movie.Runtime }}
           </p>
+          <!-- Movie Actors -->
           <p>{{ movie.Actors }}</p>
         </div>
       </div>
     </div>
+    <!-- Movie Plot -->
     <p class="border-t border-zinc-300 py-4">{{ movie.Plot }}</p>
+    <!-- Movie Ratings -->
     <div class="flex justify-center border-t border-zinc-300 pt-6">
       <div
         v-for="(rating, index) in movie.Ratings"
