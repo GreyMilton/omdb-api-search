@@ -151,6 +151,7 @@ function handleToggleOnWatchlist(id) {
         >
           <StatusBar :status="currentStatus" />
           <SearchResults
+            :watchlist="watchlist"
             :results="searchResults"
             :selected-result="selectedMovie.imdbID"
             @selection="handleSelect"
