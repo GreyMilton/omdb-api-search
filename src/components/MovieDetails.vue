@@ -130,13 +130,13 @@ function handleClickWatchlist() {
           <!-- Movie Title -->
           <h1 class="text-4xl font-semibold">{{ movie.Title }}</h1>
           <!-- Movie Metadata -->
-          <p class="text-neutral-600">
+          <p class="capitalize text-neutral-600">
             <span
               class="rounded-[4px] border border-black px-2.5 py-0.5 text-sm font-light leading-none text-black"
               >{{ movie.Rated }}</span
             >
             {{ movie.Year }}&nbsp;&middot; {{ movie.Genre }}&nbsp;&middot;
-            {{ movie.Runtime }}
+            {{ movie.Type }}&nbsp;&middot; {{ movie.Runtime }}
           </p>
           <!-- Movie Actors -->
           <p>{{ movie.Actors }}</p>
