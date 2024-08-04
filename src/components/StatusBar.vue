@@ -8,6 +8,8 @@ const props = defineProps({
   },
 });
 
+defineEmits(['view-watchlist']);
+
 const loading = computed(
   () =>
     props.status === 'Searching' ||
@@ -36,11 +38,19 @@ const dots = computed(() => {
 </script>
 
 <template>
-  <p
-    class="px-7 py-7 text-sm font-extralight"
-    :class="{ 'whitespace-nowrap italic': loading }"
-  >
-    <span role="status">{{ status }}</span
-    >{{ dots }}
-  </p>
+  <div class="flex justify-between p-5 text-sm font-extralight">
+    <p
+      class="p-2"
+      :class="{ 'whitespace-nowrap italic': loading }"
+    >
+      <span role="status">{{ status }}</span
+      >{{ dots }}
+    </p>
+    <button
+      class="p-2 underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200"
+      @click="$emit('view-watchlist')"
+    >
+      View watchlist
+    </button>
+  </div>
 </template>
