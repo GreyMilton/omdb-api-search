@@ -28,7 +28,7 @@ const types = [
 ];
 const type = ref(types[0].value);
 
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear() + '';
 const year = ref(currentYear);
 const yearEnabled = ref(false);
 const searchYear = computed(() => {
