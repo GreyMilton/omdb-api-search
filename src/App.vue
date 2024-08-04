@@ -8,15 +8,14 @@ import MovieDetails from './components/MovieDetails.vue';
 
 const defaultSearchStatus = 'Ready to search.';
 const searchStatus = ref(defaultSearchStatus);
-const searchPending = ref(false);
 const searchResults = ref([]);
 const selectedMovie = ref({});
 const showMovieDetails = ref(false);
 
 const errorMap = {
   'Movie not found!': '0 results found.',
-  'Too many results.': 'Keep typing...',
-  'Failed to fetch': 'Network error: Please check your internet connection.',
+  'Too many results.': 'Too many results. Keep typing.',
+  'Failed to fetch': 'Network error: Please check your internet connection',
 };
 
 function createErrorMessage(error) {
@@ -30,7 +29,6 @@ function clearSearch() {
   searchResults.value = [];
   searchStatus.value = defaultSearchStatus;
   showMovieDetails.value = false;
-  searchPending.value = false;
 }
 
 function createRequestUrl(params) {
@@ -62,9 +60,6 @@ function getSearchResults(search, type, year) {
     })
     .catch((error) => {
       searchStatus.value = createErrorMessage(error.message);
-    })
-    .finally(() => {
-      searchPending.value = false;
     });
 }
 
@@ -99,7 +94,7 @@ const debouncedSearch = debounce((search, type, year) => {
 }, 600);
 
 function handleSearch(search, type, year) {
-  searchPending.value = true;
+  searchStatus.value = search ? 'Searching' : 'Clearing search';
   debouncedSearch(search, type, year);
 }
 
@@ -135,11 +130,7 @@ function handleCloseDetails() {
           "
           class="row-span-1 h-fit"
         >
-          <SearchStatus :status="searchStatus">
-            <p class="p-4 text-sm font-extralight italic">
-              {{ searchPending ? 'loading...' : '' }}
-            </p>
-          </SearchStatus>
+          <SearchStatus :status="searchStatus" />
           <SearchResults
             :results="searchResults"
             :selected-result="selectedMovie.imdbID"
