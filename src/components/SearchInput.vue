@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import CrossIcon from './icons/CrossIcon.vue';
 import MagnifyingGlass from './icons/MagnifyingGlass.vue';
 
 const model = defineModel({
@@ -34,12 +35,15 @@ function handleClear() {
       class="h-10 min-w-0 grow bg-transparent pl-2 text-2xl font-light text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
     />
     <button
-      class="ml-3 h-6 w-6 flex-shrink-0 rounded-full bg-white/80 pb-1 text-[1.3rem] leading-none text-omdb-grey hover:bg-white focus-visible:border-omdb-grey focus-visible:outline-2 focus-visible:outline-omdb-grey focus-visible:ring-[6px] focus-visible:ring-white"
+      class="ml-3 h-6 w-6 flex-shrink-0 rounded-full bg-white/80 hover:bg-white focus-visible:border-omdb-grey focus-visible:outline-2 focus-visible:outline-omdb-grey focus-visible:ring-[6px] focus-visible:ring-white"
       :class="{ 'pointer-events-none invisible': !showClear }"
       aria-label="Clear search"
       @click="handleClear"
     >
-      x
+      <CrossIcon
+        aria-hidden="true"
+        class="m-auto h-3.5 w-3.5 stroke-omdb-grey stroke-[1.6]"
+      />
     </button>
   </div>
 </template>
