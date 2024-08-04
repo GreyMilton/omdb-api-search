@@ -31,10 +31,10 @@ defineEmits(['close', 'toggle-on-watchlist']);
       />
     </button>
     <button
-      class="my-3 block pb-2 pl-1 pr-2 pt-2 text-sm hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
+      class="my-3 block pb-2 pl-1 pr-2 pt-2 text-sm underline hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-neutral-300 active:bg-zinc-200 lg:hidden"
       @click="$emit('close')"
     >
-      &lt; back to results
+      Back to results
     </button>
     <div class="flex flex-col gap-10 pb-6 sm:flex-row sm:gap-4">
       <img
