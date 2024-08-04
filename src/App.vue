@@ -253,7 +253,6 @@ function handleCloseDetails() {
  * @param {string} movie.imdbID - The IMDb ID of the movie.
  */
 function handleAddToWatchlist(movie) {
-  console.log(movie);
   if (!watchlistIds.value.includes(movie.imdbID)) {
     watchlist.value.push(movie);
   }
