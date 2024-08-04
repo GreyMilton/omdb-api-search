@@ -9,7 +9,10 @@ const props = defineProps({
 });
 
 const loading = computed(
-  () => props.status === 'Searching' || props.status === 'Clearing search',
+  () =>
+    props.status === 'Searching' ||
+    props.status === 'Clearing search' ||
+    props.status === 'Getting details',
 );
 
 const index = ref(0);

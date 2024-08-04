@@ -9,8 +9,8 @@ import MovieDetails from './components/MovieDetails.vue';
 const defaultSearchStatus = 'Ready to search.';
 const searchStatus = ref(defaultSearchStatus);
 const searchResults = ref([]);
-const selectedMovie = ref({});
 const showMovieDetails = ref(false);
+const selectedMovie = ref({});
 
 const errorMap = {
   'Movie not found!': '0 results found.',
@@ -63,28 +63,6 @@ function getSearchResults(search, type, year) {
     });
 }
 
-function getMovieById(id) {
-  const url = createRequestUrl({
-    i: id,
-  });
-
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      if (data.Response === 'False') {
-        selectedMovie.value = {};
-      } else {
-        selectedMovie.value = data;
-        showMovieDetails.value = true;
-      }
-    })
-    .catch((error) => {
-      searchStatus.value = createErrorMessage(error.message);
-    });
-}
-
 const debouncedSearch = debounce((search, type, year) => {
   if (!search) {
     clearSearch();
@@ -98,13 +76,45 @@ function handleSearch(search, type, year) {
   debouncedSearch(search, type, year);
 }
 
-const handleSelect = debounce((id) => {
-  getMovieById(id);
+function getMovie(id) {
+  const url = createRequestUrl({
+    i: id,
+  });
+
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data.Response === 'False') {
+        selectedMovie.value = {};
+        showMovieDetails.value = false;
+        searchStatus.value = createErrorMessage(data.Error);
+      } else {
+        selectedMovie.value = data;
+        showMovieDetails.value = true;
+        searchStatus.value = 'Details retrieved.';
+      }
+    })
+    .catch((error) => {
+      searchStatus.value = createErrorMessage(error.message);
+      showMovieDetails.value = false;
+    });
+}
+
+const debouncedGetMovie = debounce((id) => {
+  getMovie(id);
 }, 100);
+
+function handleSelect(id) {
+  searchStatus.value = 'Getting details';
+  debouncedGetMovie(id);
+}
 
 function handleCloseDetails() {
   selectedMovie.value = {};
   showMovieDetails.value = false;
+  searchStatus.value = 'Details closed.';
 }
 </script>
 
