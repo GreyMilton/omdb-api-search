@@ -54,12 +54,11 @@ describe('MovieWatchlist.vue', () => {
 
     expect(wrapperWithMovies.findAll('li')).toHaveLength(watchlist.length);
 
-    expect(imgs[0].attributes('src')).toBe(watchlist[0].Poster);
-    expect(imgs[1].attributes('src')).toBe(watchlist[1].Poster);
-    expect(h1s[0].text()).toBe(watchlist[0].Title);
-    expect(h1s[1].text()).toBe(watchlist[1].Title);
-    expect(ps[0].text()).toBe(watchlist[0].Year);
-    expect(ps[1].text()).toBe(watchlist[1].Year);
+    watchlist.forEach((movie, index) => {
+      expect(imgs[index].attributes('src')).toBe(movie.Poster);
+      expect(h1s[index].text()).toBe(movie.Title);
+      expect(ps[index].text()).toBe(movie.Year);
+    });
   });
 
   it('displays the empty message when the watchlist is empty', () => {
