@@ -132,18 +132,20 @@ describe('MovieDetails.vue', () => {
   });
 
   it('has black outlined styled button when movie is not on watchlist', () => {
-    const watchlistButton = wrapperForMovieOffWatchlist.find(
-      'button[aria-label="Toggle on/off watchlist"]',
-    );
-    expect(watchlistButton.classes()).not.toContain('bg-amber-50');
-    expect(watchlistButton.classes()).toContain('border-black');
+    const buttonClasses = wrapperForMovieOffWatchlist
+      .find('button[aria-label="Toggle on/off watchlist"]')
+      .classes();
+
+    expect(buttonClasses).not.toContain('bg-amber-50');
+    expect(buttonClasses).toContain('border-black');
   });
 
   it('has gold styled watchlist button when movie is on watchlist ', () => {
-    const watchlistButton = wrapperForMovieOnWatchlist.find(
-      'button[aria-label="Toggle on/off watchlist"]',
-    );
-    expect(watchlistButton.classes()).toContain('border-yellow-500');
-    expect(watchlistButton.classes()).toContain('bg-amber-50');
+    const buttonClasses = wrapperForMovieOnWatchlist
+      .find('button[aria-label="Toggle on/off watchlist"]')
+      .classes();
+
+    expect(buttonClasses).toContain('border-yellow-500');
+    expect(buttonClasses).toContain('bg-amber-50');
   });
 });
