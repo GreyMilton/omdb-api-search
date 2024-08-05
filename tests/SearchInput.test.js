@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import SearchInput from '../src/components/SearchInput.vue'; // Adjust the path as necessary
+import SearchInput from '../src/components/SearchInput.vue';
 import CrossIcon from '../src/components/icons/CrossIcon.vue';
 import MagnifyingGlass from '../src/components/icons/MagnifyingGlass.vue';
 
