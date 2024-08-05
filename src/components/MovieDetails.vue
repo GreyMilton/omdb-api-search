@@ -146,8 +146,8 @@ function handleClickWatchlist() {
     <!-- Movie Plot -->
     <p class="border-t border-zinc-300 py-4">{{ movie.Plot }}</p>
     <!-- Movie Ratings -->
-    <div class="flex justify-center border-t border-zinc-300 pt-6">
-      <div
+    <ul class="flex justify-center border-t border-zinc-300 pt-6">
+      <li
         v-for="(rating, index) in movie.Ratings"
         :key="index"
         class="space-y-1.5 border-l border-zinc-300 px-8 text-center first:border-none"
@@ -158,7 +158,7 @@ function handleClickWatchlist() {
         <p class="text-sm">
           {{ rating.Source }}
         </p>
-      </div>
-    </div>
+      </li>
+    </ul>
   </article>
 </template>
