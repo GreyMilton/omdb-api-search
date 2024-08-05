@@ -23,15 +23,17 @@ describe('MovieWatchlist.vue', () => {
     },
   ];
 
-  const selectedMovie = watchlist[0].imdbID;
+  const selectedMovie = watchlist[0];
+  const otherMovie = watchlist.find(
+    (movie) => movie.imdbID !== selectedMovie.imdbID,
+  );
 
   const wrapperWithMovies = mount(MovieWatchlist, {
-    props: { watchlist, selectedMovie },
+    props: { watchlist, selectedMovie: selectedMovie.imdbID },
     global: {
       components: { BookmarkIcon },
     },
   });
-
   const wrapperNoMovies = mount(MovieWatchlist, {
     props: { watchlist: [], selectedMovie: '' },
     global: {
@@ -40,11 +42,10 @@ describe('MovieWatchlist.vue', () => {
   });
 
   const selectedMovieButton = wrapperWithMovies.find(
-    `button[aria-label="Select ${watchlist[0].Title}"]`,
+    `button[aria-label="Select ${selectedMovie.Title}"]`,
   );
-
   const otherMovieButton = wrapperWithMovies.find(
-    `button[aria-label="Select ${watchlist[1].Title}"]`,
+    `button[aria-label="Select ${otherMovie.Title}"]`,
   );
 
   it('renders the movie list correctly when watchlist has movies', () => {
@@ -72,10 +73,9 @@ describe('MovieWatchlist.vue', () => {
 
   it('emits the selection event with correct IMDb ID when a movie is clicked', () => {
     otherMovieButton.trigger('click').then(() => {
-      expect(wrapperWithMovies.emitted('selection')).toBeTruthy();
-      expect(wrapperWithMovies.emitted('selection')[0]).toEqual([
-        watchlist[1].imdbID,
-      ]);
+      const selection = wrapperWithMovies.emitted('selection');
+      expect(selection).toBeTruthy();
+      expect(selection[0]).toEqual([watchlist[1].imdbID]);
     });
   });
 });
