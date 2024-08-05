@@ -66,24 +66,24 @@ describe('MovieDetails.vue', () => {
 
   it('renders movie details correctly', () => {
     const wrapper = wrapperForMovieOnWatchlist;
+    const text = wrapper.text();
+    const ratings = wrapper.findAll('li');
+
     expect(wrapper.find('h1').text()).toBe(movie.Title);
     expect(wrapper.find('img').attributes('src')).toBe(movie.Poster);
-    expect(wrapper.text()).toContain(movie.Rated);
-    expect(wrapper.text()).toContain(movie.Year);
-    expect(wrapper.text()).toContain(movie.Genre);
-    expect(wrapper.text()).toContain(movie.Type);
-    expect(wrapper.text()).toContain(movie.Runtime);
-    expect(wrapper.text()).toContain(movie.Actors);
-    expect(wrapper.text()).toContain(movie.Plot);
+    expect(text).toContain(movie.Rated);
+    expect(text).toContain(movie.Year);
+    expect(text).toContain(movie.Genre);
+    expect(text).toContain(movie.Type);
+    expect(text).toContain(movie.Runtime);
+    expect(text).toContain(movie.Actors);
+    expect(text).toContain(movie.Plot);
 
-    const ratings = wrapper.findAll('li');
     expect(ratings).toHaveLength(movie.Ratings.length);
-    expect(ratings[0].text()).toContain(movie.Ratings[0].Value);
-    expect(ratings[0].text()).toContain(movie.Ratings[0].Source);
-    expect(ratings[1].text()).toContain(movie.Ratings[1].Value);
-    expect(ratings[1].text()).toContain(movie.Ratings[1].Source);
-    expect(ratings[2].text()).toContain(movie.Ratings[2].Value);
-    expect(ratings[2].text()).toContain(movie.Ratings[2].Source);
+    ratings.forEach((rating, index) => {
+      expect(rating.text()).toContain(movie.Ratings[index].Value);
+      expect(rating.text()).toContain(movie.Ratings[index].Source);
+    });
   });
 
   it('emits close event when close button is clicked', () => {
