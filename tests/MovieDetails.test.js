@@ -47,18 +47,15 @@ describe('MovieDetails.vue', () => {
     Response: 'True',
   };
 
-  const watchlistWithMovie = [movie.imdbID, 'with', 'other', 'ids'];
-  const watchlistWithoutMovie = ['just', 'other', 'ids'];
-
   const wrapperForMovieOnWatchlist = mount(MovieDetails, {
-    props: { movie, watchlist: watchlistWithMovie },
+    props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
     global: {
       components: { CrossIcon, BookmarkIcon },
     },
   });
 
   const wrapperForMovieOffWatchlist = mount(MovieDetails, {
-    props: { movie, watchlist: watchlistWithoutMovie },
+    props: { movie, watchlist: ['just', 'other', 'ids'] },
     global: {
       components: { CrossIcon, BookmarkIcon },
     },
