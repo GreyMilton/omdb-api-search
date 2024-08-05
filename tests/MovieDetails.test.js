@@ -76,14 +76,14 @@ describe('MovieDetails.vue', () => {
     expect(wrapper.text()).toContain(movie.Actors);
     expect(wrapper.text()).toContain(movie.Plot);
 
-    const ratings = wrapper.findAll('.flex > div');
-    expect(ratings).toHaveLength(movie.Ratings.length + 2);
-    expect(ratings[2].text()).toContain(movie.Ratings[0].Value);
-    expect(ratings[2].text()).toContain(movie.Ratings[0].Source);
-    expect(ratings[3].text()).toContain(movie.Ratings[1].Value);
-    expect(ratings[3].text()).toContain(movie.Ratings[1].Source);
-    expect(ratings[4].text()).toContain(movie.Ratings[2].Value);
-    expect(ratings[4].text()).toContain(movie.Ratings[2].Source);
+    const ratings = wrapper.findAll('li');
+    expect(ratings).toHaveLength(movie.Ratings.length);
+    expect(ratings[0].text()).toContain(movie.Ratings[0].Value);
+    expect(ratings[0].text()).toContain(movie.Ratings[0].Source);
+    expect(ratings[1].text()).toContain(movie.Ratings[1].Value);
+    expect(ratings[1].text()).toContain(movie.Ratings[1].Source);
+    expect(ratings[2].text()).toContain(movie.Ratings[2].Value);
+    expect(ratings[2].text()).toContain(movie.Ratings[2].Source);
   });
 
   it('emits close event when close button is clicked', () => {
