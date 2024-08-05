@@ -17,12 +17,13 @@ describe('SearchInput.vue', () => {
   const clearButton = wrapper.find('button[aria-label="Clear search"]');
 
   it('renders correctly with all elements', () => {
+    const buttonClasses = clearButton.classes();
     expect(input.exists()).toBe(true);
     expect(input.attributes('aria-label')).toBe('Search');
     expect(magnifyingGlassIcon.exists()).toBe(true);
     expect(clearButton.exists()).toBe(true);
-    expect(clearButton.classes()).toContain('pointer-events-none');
-    expect(clearButton.classes()).toContain('invisible');
+    expect(buttonClasses).toContain('pointer-events-none');
+    expect(buttonClasses).toContain('invisible');
   });
 
   it('displays the clear button when input has text', () => {
@@ -30,30 +31,37 @@ describe('SearchInput.vue', () => {
       .find('input#search-input')
       .setValue('Star wars')
       .then(() => {
-        expect(wrapper.vm.showClear).toBe(true);
-        expect(clearButton.classes()).not.toContain('pointer-events-none');
-        expect(clearButton.classes()).not.toContain('invisible');
+        const buttonClasses = clearButton.classes();
+        expect(buttonClasses).not.toContain('pointer-events-none');
+        expect(buttonClasses).not.toContain('invisible');
       });
   });
 
-  it('hides the clear button and clears input when clear button is clicked', () => {
+  it('clears input and hides the clear button when the clear button is clicked', () => {
     input
       .setValue('Star wars')
       .then(() => {
-        expect(wrapper.vm.model).toBe('Star wars');
-      })
-      .then(() => {
+        expect(input.element.value).toBe('Star wars');
+
+        const buttonClasses = clearButton.classes();
+        expect(buttonClasses).not.toContain('pointer-events-none');
+        expect(buttonClasses).not.toContain('invisible');
+
         clearButton.trigger('click');
       })
       .then(() => {
-        expect(wrapper.vm.model).toBe('');
-        expect(wrapper.vm.showClear).toBe(false);
-        expect(clearButton.classes()).toContain('pointer-events-none');
-        expect(clearButton.classes()).toContain('invisible');
+        expect(input.element.value).toBe('');
+
+        const buttonClasses = clearButton.classes();
+        expect(buttonClasses).toContain('pointer-events-none');
+        expect(buttonClasses).toContain('invisible');
       });
   });
 
-  it('model correctly binds to input field', () => {
+  it('correctly binds model value to input field', () => {
+    expect(wrapper.vm.model).toBe('');
+    expect(input.element.value).toBe('');
+
     wrapper.vm.model = 'Star wars';
     wrapper.vm
       .$nextTick()
