@@ -111,7 +111,6 @@ function clearSearch() {
  * @param {string} params.s - The search query.
  * @param {string} [params.type] - The type of title to search for (optional).
  * @param {string} [params.y] - The year of release (optional).
- * @param {string} [params.i] - The IMDb ID for retrieving specific movie details (optional).
  * @returns {string} The complete URL for the API request.
  */
 function createRequestUrl(params) {
