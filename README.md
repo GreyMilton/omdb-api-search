@@ -33,6 +33,12 @@ npm run dev
 npm run build
 ```
 
+### Run Tests
+
+```sh
+npm run test
+```
+
 ## Development Process
 
 I created mock Jira issues for tracking git commits, mimicking a real world client/project scenario. I referenced the below "issue numbers" in the majority of my commits.
