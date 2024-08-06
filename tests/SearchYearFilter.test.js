@@ -45,4 +45,23 @@ describe('SearchYearFilter.vue', () => {
         expect(wrapper.vm.year).toBe('2000');
       });
   });
+
+  it('correctly toggles the enabled model value when checkbox value changes', () => {
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    expect(wrapper.vm.enabled).toBe(true);
+    expect(checkbox.element.checked).toBe(true);
+
+    checkbox
+      .setValue(false)
+      .then(() => {
+        expect(wrapper.vm.enabled).toBe(false);
+        expect(checkbox.element.checked).toBe(false);
+
+        checkbox.setValue(true);
+      })
+      .then(() => {
+        expect(wrapper.vm.enabled).toBe(true);
+        expect(checkbox.element.checked).toBe(true);
+      });
+  });
 });
