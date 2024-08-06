@@ -47,22 +47,20 @@ describe('MovieDetails.vue', () => {
     Response: 'True',
   };
 
-  const wrapperForMovieOnWatchlist = mount(MovieDetails, {
-    props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
-    global: {
-      components: { CrossIcon, BookmarkIcon },
-    },
-  });
+  const watchlistWithMovie = [movie.imdbID, 'with', 'other', 'ids'];
+  const watchlistWithoutMovie = ['just', 'other', 'ids'];
 
-  const wrapperForMovieOffWatchlist = mount(MovieDetails, {
-    props: { movie, watchlist: ['just', 'other', 'ids'] },
-    global: {
-      components: { CrossIcon, BookmarkIcon },
-    },
-  });
+  function createWrapper(movie, watchlist) {
+    return mount(MovieDetails, {
+      props: { movie, watchlist },
+      global: {
+        components: { CrossIcon, BookmarkIcon },
+      },
+    });
+  }
 
   it('renders movie details correctly', () => {
-    const wrapper = wrapperForMovieOnWatchlist;
+    const wrapper = createWrapper(movie, watchlistWithMovie);
     const text = wrapper.text();
     const ratings = wrapper.findAll('li');
 
@@ -84,25 +82,25 @@ describe('MovieDetails.vue', () => {
   });
 
   it('emits close event when close button is clicked', () => {
-    wrapperForMovieOnWatchlist
+    const wrapper = createWrapper(movie, watchlistWithMovie);
+
+    wrapper
       .find('button[aria-label="Close"]')
       .trigger('click')
       .then(() => {
-        expect(wrapperForMovieOnWatchlist.emitted('close')).toBeTruthy();
+        expect(wrapper.emitted('close')).toBeTruthy();
       });
   });
 
   it('emits add-to-watchlist event when watchlist button is clicked (and movie is not on watchlist)', () => {
-    wrapperForMovieOffWatchlist
+    const wrapper = createWrapper(movie, watchlistWithoutMovie);
+
+    wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .trigger('click')
       .then(() => {
-        expect(
-          wrapperForMovieOffWatchlist.emitted('add-to-watchlist'),
-        ).toBeTruthy();
-        expect(
-          wrapperForMovieOffWatchlist.emitted('add-to-watchlist')[0],
-        ).toEqual([
+        expect(wrapper.emitted('add-to-watchlist')).toBeTruthy();
+        expect(wrapper.emitted('add-to-watchlist')[0]).toEqual([
           {
             Poster: movie.Poster,
             Title: movie.Title,
@@ -115,21 +113,22 @@ describe('MovieDetails.vue', () => {
   });
 
   it('emits remove-from-watchlist event when watchlist button is clicked (and movie is on watchlist)', () => {
-    wrapperForMovieOnWatchlist
+    const wrapper = createWrapper(movie, watchlistWithMovie);
+
+    wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .trigger('click')
       .then(() => {
-        expect(
-          wrapperForMovieOnWatchlist.emitted('remove-from-watchlist'),
-        ).toBeTruthy();
-        expect(
-          wrapperForMovieOnWatchlist.emitted('remove-from-watchlist')[0],
-        ).toEqual([movie.imdbID]);
+        expect(wrapper.emitted('remove-from-watchlist')).toBeTruthy();
+        expect(wrapper.emitted('remove-from-watchlist')[0]).toEqual([
+          movie.imdbID,
+        ]);
       });
   });
 
   it('has black outlined styled button when movie is not on watchlist', () => {
-    const buttonClasses = wrapperForMovieOffWatchlist
+    const wrapper = createWrapper(movie, watchlistWithoutMovie);
+    const buttonClasses = wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .classes();
 
@@ -138,7 +137,8 @@ describe('MovieDetails.vue', () => {
   });
 
   it('has gold styled watchlist button when movie is on watchlist ', () => {
-    const buttonClasses = wrapperForMovieOnWatchlist
+    const wrapper = createWrapper(movie, watchlistWithMovie);
+    const buttonClasses = wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .classes();
 
