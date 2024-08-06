@@ -47,14 +47,20 @@ describe('MovieDetails.vue', () => {
     Response: 'True',
   };
 
-  it('renders movie details correctly', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
+  const watchlistWithMovie = [movie.imdbID, 'with', 'other', 'ids'];
+  const watchlistWithoutMovie = ['just', 'other', 'ids'];
+
+  function createWrapper(movie, watchlist) {
+    return mount(MovieDetails, {
+      props: { movie, watchlist },
       global: {
         components: { CrossIcon, BookmarkIcon },
       },
     });
+  }
 
+  it('renders movie details correctly', () => {
+    const wrapper = createWrapper(movie, watchlistWithMovie);
     const text = wrapper.text();
     const ratings = wrapper.findAll('li');
 
@@ -76,12 +82,7 @@ describe('MovieDetails.vue', () => {
   });
 
   it('emits close event when close button is clicked', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
-      global: {
-        components: { CrossIcon, BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movie, watchlistWithMovie);
 
     wrapper
       .find('button[aria-label="Close"]')
@@ -92,12 +93,7 @@ describe('MovieDetails.vue', () => {
   });
 
   it('emits add-to-watchlist event when watchlist button is clicked (and movie is not on watchlist)', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: ['just', 'other', 'ids'] },
-      global: {
-        components: { CrossIcon, BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movie, watchlistWithoutMovie);
 
     wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
@@ -117,12 +113,7 @@ describe('MovieDetails.vue', () => {
   });
 
   it('emits remove-from-watchlist event when watchlist button is clicked (and movie is on watchlist)', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
-      global: {
-        components: { CrossIcon, BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movie, watchlistWithMovie);
 
     wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
@@ -136,12 +127,7 @@ describe('MovieDetails.vue', () => {
   });
 
   it('has black outlined styled button when movie is not on watchlist', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: ['just', 'other', 'ids'] },
-      global: {
-        components: { CrossIcon, BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movie, watchlistWithoutMovie);
     const buttonClasses = wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .classes();
@@ -151,12 +137,7 @@ describe('MovieDetails.vue', () => {
   });
 
   it('has gold styled watchlist button when movie is on watchlist ', () => {
-    const wrapper = mount(MovieDetails, {
-      props: { movie, watchlist: [movie.imdbID, 'with', 'other', 'ids'] },
-      global: {
-        components: { CrossIcon, BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movie, watchlistWithMovie);
     const buttonClasses = wrapper
       .find('button[aria-label="Toggle on/off watchlist"]')
       .classes();
