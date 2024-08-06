@@ -32,4 +32,14 @@ describe('StatusBar.vue', () => {
     const button = createWrapper('Fake status', true).find('button');
     expect(button.text()).toBe('Close watchlist');
   });
+  it('emits toggle-watchlist event when button is clicked and showingWatchlist is false', () => {
+    const wrapper = createWrapper('Fake status', false);
+
+    wrapper
+      .find('button')
+      .trigger('click')
+      .then(() => {
+        expect(wrapper.emitted('toggle-watchlist')).toBeTruthy();
+      });
+  });
 });
