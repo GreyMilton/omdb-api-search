@@ -22,10 +22,14 @@ describe('SearchTypeFilter.vue', () => {
     },
   ];
 
-  it('renders a radio button for each type', () => {
-    const wrapper = mount(SearchTypeFilter, {
-      props: { types, modelValue: types[0].value },
+  function createWrapper(types, modelValue) {
+    return mount(SearchTypeFilter, {
+      props: { types, modelValue },
     });
+  }
+
+  it('renders a radio button for each type', () => {
+    const wrapper = createWrapper(types, types[0].value);
     const radioButtons = wrapper.findAll('input[type="radio"]');
 
     expect(radioButtons.length).toBe(types.length);
@@ -40,9 +44,7 @@ describe('SearchTypeFilter.vue', () => {
   });
 
   it('correctly changes the model value on type selection', () => {
-    const wrapper = mount(SearchTypeFilter, {
-      props: { types, modelValue: types[0].value },
-    });
+    const wrapper = createWrapper(types, types[0].value);
 
     expect(wrapper.vm.model).toBe(types[0].value);
 
@@ -55,9 +57,7 @@ describe('SearchTypeFilter.vue', () => {
   });
 
   it('has the correct label for each radio button', () => {
-    const wrapper = mount(SearchTypeFilter, {
-      props: { types, modelValue: types[0].value },
-    });
+    const wrapper = createWrapper(types, types[0].value);
 
     types.forEach((type, index) => {
       const label = wrapper.find(`label[for="type-${index}"]`);
