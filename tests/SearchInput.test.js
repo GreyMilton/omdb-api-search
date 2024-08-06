@@ -5,19 +5,19 @@ import CrossIcon from '../src/components/icons/CrossIcon.vue';
 import MagnifyingGlass from '../src/components/icons/MagnifyingGlass.vue';
 
 describe('SearchInput.vue', () => {
-  const wrapper = mount(SearchInput, {
-    props: { modelValue: '' },
-    global: {
-      components: { CrossIcon, MagnifyingGlass },
-    },
-  });
-
-  const input = wrapper.find('input#search-input');
-  const magnifyingGlassIcon = wrapper.findComponent(MagnifyingGlass);
-  const clearButton = wrapper.find('button[aria-label="Clear search"]');
-
   it('renders correctly with all elements', () => {
+    const wrapper = mount(SearchInput, {
+      props: { modelValue: '' },
+      global: {
+        components: { CrossIcon, MagnifyingGlass },
+      },
+    });
+
+    const input = wrapper.find('input#search-input');
+    const magnifyingGlassIcon = wrapper.findComponent(MagnifyingGlass);
+    const clearButton = wrapper.find('button[aria-label="Clear search"]');
     const buttonClasses = clearButton.classes();
+
     expect(input.exists()).toBe(true);
     expect(input.attributes('aria-label')).toBe('Search');
     expect(magnifyingGlassIcon.exists()).toBe(true);
@@ -27,17 +27,37 @@ describe('SearchInput.vue', () => {
   });
 
   it('displays the clear button when input has text', () => {
-    wrapper
-      .find('input#search-input')
-      .setValue('Star wars')
-      .then(() => {
-        const buttonClasses = clearButton.classes();
-        expect(buttonClasses).not.toContain('pointer-events-none');
-        expect(buttonClasses).not.toContain('invisible');
-      });
+    const wrapper = mount(SearchInput, {
+      props: { modelValue: '' },
+      global: {
+        components: { CrossIcon, MagnifyingGlass },
+      },
+    });
+    const input = wrapper.find('input#search-input');
+    const clearButton = wrapper.find('button[aria-label="Clear search"]');
+
+    const initialClasses = clearButton.classes();
+    expect(initialClasses).toContain('pointer-events-none');
+    expect(initialClasses).toContain('invisible');
+
+    input.setValue('Star wars').then(() => {
+      const newClasses = clearButton.classes();
+      expect(newClasses).not.toContain('pointer-events-none');
+      expect(newClasses).not.toContain('invisible');
+    });
   });
 
   it('clears input and hides the clear button when the clear button is clicked', () => {
+    const wrapper = mount(SearchInput, {
+      props: { modelValue: '' },
+      global: {
+        components: { CrossIcon, MagnifyingGlass },
+      },
+    });
+
+    const input = wrapper.find('input#search-input');
+    const clearButton = wrapper.find('button[aria-label="Clear search"]');
+
     input
       .setValue('Star wars')
       .then(() => {
@@ -59,6 +79,14 @@ describe('SearchInput.vue', () => {
   });
 
   it('correctly binds model value to input field', () => {
+    const wrapper = mount(SearchInput, {
+      props: { modelValue: '' },
+      global: {
+        components: { CrossIcon, MagnifyingGlass },
+      },
+    });
+    const input = wrapper.find('input#search-input');
+
     expect(wrapper.vm.model).toBe('');
     expect(input.element.value).toBe('');
 
