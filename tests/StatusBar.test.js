@@ -24,4 +24,8 @@ describe('StatusBar.vue', () => {
     expect(statusMessage.exists()).toBe(true);
     expect(statusMessage.text()).toBe(status);
   });
+  it('renders button text "View watchlist" when showingWatchlist is false', () => {
+    const button = createWrapper('Fake status', false).find('button');
+    expect(button.text()).toBe('View watchlist');
+  });
 });
