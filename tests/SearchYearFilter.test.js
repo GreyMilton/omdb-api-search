@@ -34,4 +34,15 @@ describe('SearchYearFilter.vue', () => {
     const yearDisplay = wrapper.find('p');
     expect(yearDisplay.text()).toBe('1999');
   });
+
+  it('correctly changes the year model value on selection', () => {
+    expect(wrapper.vm.year).toBe('1999');
+
+    wrapper
+      .find('input[type="range"]')
+      .setValue('2000')
+      .then(() => {
+        expect(wrapper.vm.year).toBe('2000');
+      });
+  });
 });
