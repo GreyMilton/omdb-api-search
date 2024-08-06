@@ -11,27 +11,27 @@ describe('SearchYearFilter.vue', () => {
   });
 
   const currentYear = new Date().getFullYear();
+  const checkboxLabel = wrapper.find('label[for="enable-year"]');
+  const checkbox = wrapper.find('input[type="checkbox"]');
+  const yearLabel = wrapper.find('label[for="year-input"]');
+  const yearInput = wrapper.find('input[type="range"]');
+  const yearDisplay = wrapper.find('p');
 
   it('renders html elements correctly', () => {
-    const enableCheckboxLabel = wrapper.find('label[for="enable-year"]');
-    expect(enableCheckboxLabel.exists()).toBe(true);
-    expect(enableCheckboxLabel.text()).toBe('enable');
+    expect(checkboxLabel.exists()).toBe(true);
+    expect(checkboxLabel.text()).toBe('enable');
 
-    const enableCheckbox = wrapper.find('input[type="checkbox"]');
-    expect(enableCheckbox.exists()).toBe(true);
-    expect(enableCheckbox.element.checked).toBe(true);
+    expect(checkbox.exists()).toBe(true);
+    expect(checkbox.element.checked).toBe(true);
 
-    const yearLabel = wrapper.find('label[for="year-input"]');
     expect(yearLabel.exists()).toBe(true);
     expect(yearLabel.text()).toBe('Year');
 
-    const yearInput = wrapper.find('input[type="range"]');
     expect(yearInput.exists()).toBe(true);
     expect(yearInput.attributes('min')).toBe('1900');
     expect(yearInput.attributes('max')).toBe(currentYear.toString());
     expect(yearInput.element.value).toBe('1999');
 
-    const yearDisplay = wrapper.find('p');
     expect(yearDisplay.text()).toBe('1999');
   });
 
@@ -47,7 +47,6 @@ describe('SearchYearFilter.vue', () => {
   });
 
   it('correctly toggles the enabled model value when checkbox value changes', () => {
-    const checkbox = wrapper.find('input[type="checkbox"]');
     expect(wrapper.vm.enabled).toBe(true);
     expect(checkbox.element.checked).toBe(true);
 
