@@ -5,13 +5,16 @@ import CrossIcon from '../src/components/icons/CrossIcon.vue';
 import MagnifyingGlass from '../src/components/icons/MagnifyingGlass.vue';
 
 describe('SearchInput.vue', () => {
-  it('renders correctly with all elements', () => {
-    const wrapper = mount(SearchInput, {
-      props: { modelValue: '' },
+  function createWrapper(modelValue) {
+    return mount(SearchInput, {
+      props: { modelValue },
       global: {
         components: { CrossIcon, MagnifyingGlass },
       },
     });
+  }
+  it('renders correctly with all elements', () => {
+    const wrapper = createWrapper('');
 
     const input = wrapper.find('input#search-input');
     const magnifyingGlassIcon = wrapper.findComponent(MagnifyingGlass);
@@ -27,12 +30,7 @@ describe('SearchInput.vue', () => {
   });
 
   it('displays the clear button when input has text', () => {
-    const wrapper = mount(SearchInput, {
-      props: { modelValue: '' },
-      global: {
-        components: { CrossIcon, MagnifyingGlass },
-      },
-    });
+    const wrapper = createWrapper('');
     const input = wrapper.find('input#search-input');
     const clearButton = wrapper.find('button[aria-label="Clear search"]');
 
@@ -48,13 +46,7 @@ describe('SearchInput.vue', () => {
   });
 
   it('clears input and hides the clear button when the clear button is clicked', () => {
-    const wrapper = mount(SearchInput, {
-      props: { modelValue: '' },
-      global: {
-        components: { CrossIcon, MagnifyingGlass },
-      },
-    });
-
+    const wrapper = createWrapper('');
     const input = wrapper.find('input#search-input');
     const clearButton = wrapper.find('button[aria-label="Clear search"]');
 
@@ -79,12 +71,7 @@ describe('SearchInput.vue', () => {
   });
 
   it('correctly binds model value to input field', () => {
-    const wrapper = mount(SearchInput, {
-      props: { modelValue: '' },
-      global: {
-        components: { CrossIcon, MagnifyingGlass },
-      },
-    });
+    const wrapper = createWrapper('');
     const input = wrapper.find('input#search-input');
 
     expect(wrapper.vm.model).toBe('');
