@@ -28,32 +28,26 @@ describe('MovieList.vue', () => {
     (movie) => movie.imdbID !== selectedMovie.imdbID,
   );
 
-  const wrapperWithMovies = mount(MovieList, {
+  const wrapper = mount(MovieList, {
     props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds: [] },
     global: {
       components: { BookmarkIcon },
     },
   });
-  const wrapperNoMovies = mount(MovieList, {
-    props: { movies: [], selectedMovieId: '', watchlistIds: [] },
-    global: {
-      components: { BookmarkIcon },
-    },
-  });
 
-  const selectedMovieButton = wrapperWithMovies.find(
+  const selectedMovieButton = wrapper.find(
     `button[aria-label="Select ${selectedMovie.Title}"]`,
   );
-  const otherMovieButton = wrapperWithMovies.find(
+  const otherMovieButton = wrapper.find(
     `button[aria-label="Select ${otherMovie.Title}"]`,
   );
 
   it('renders the list correctly when it has movies', () => {
-    const imgs = wrapperWithMovies.findAll('img');
-    const h1s = wrapperWithMovies.findAll('h1');
-    const ps = wrapperWithMovies.findAll('p');
+    const imgs = wrapper.findAll('img');
+    const h1s = wrapper.findAll('h1');
+    const ps = wrapper.findAll('p');
 
-    expect(wrapperWithMovies.findAll('li')).toHaveLength(movies.length);
+    expect(wrapper.findAll('li')).toHaveLength(movies.length);
 
     movies.forEach((movie, index) => {
       expect(imgs[index].attributes('src')).toBe(movie.Poster);
@@ -63,7 +57,8 @@ describe('MovieList.vue', () => {
   });
 
   it('displays no <li>s when there are no movies', () => {
-    expect(wrapperNoMovies.findAll('li')).not.toHaveLength();
+    wrapper.vm.movies = [];
+    expect(wrapper.findAll('li')).not.toHaveLength();
   });
 
   it('applies light grey background to the selected movie', () => {
@@ -73,7 +68,7 @@ describe('MovieList.vue', () => {
 
   it('emits the selection event with correct IMDb ID when a movie is clicked', () => {
     otherMovieButton.trigger('click').then(() => {
-      const selection = wrapperWithMovies.emitted('selection');
+      const selection = wrapper.emitted('selection');
       expect(selection).toBeTruthy();
       expect(selection[0]).toEqual([movies[1].imdbID]);
     });
