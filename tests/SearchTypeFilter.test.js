@@ -49,4 +49,16 @@ describe('SearchTypeFilter.vue', () => {
         expect(wrapper.vm.model).toBe(types[1].value);
       });
   });
+
+  it('has the correct label for each radio button', () => {
+    types.forEach((type, index) => {
+      const label = wrapper.find(`label[for="type-${index}"]`);
+      const radioButton = wrapper.find(`input[type="radio"]#type-${index}`);
+
+      expect(label.exists()).toBe(true);
+      expect(label.text()).toBe(type.label);
+      expect(radioButton.exists()).toBe(true);
+      expect(radioButton.attributes('id')).toBe(label.attributes('for'));
+    });
+  });
 });
