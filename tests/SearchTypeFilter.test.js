@@ -23,8 +23,7 @@ describe('SearchTypeFilter.vue', () => {
   ];
 
   const wrapper = mount(SearchTypeFilter, {
-    props: { types },
-    modelValue: '',
+    props: { types, modelValue: '' },
   });
 
   it('renders a radio button for each type', () => {
