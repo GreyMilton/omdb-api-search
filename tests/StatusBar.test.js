@@ -28,4 +28,8 @@ describe('StatusBar.vue', () => {
     const button = createWrapper('Fake status', false).find('button');
     expect(button.text()).toBe('View watchlist');
   });
+  it('renders button text "Close watchlist" when showingWatchlist is true', () => {
+    const button = createWrapper('Fake status', true).find('button');
+    expect(button.text()).toBe('Close watchlist');
+  });
 });
