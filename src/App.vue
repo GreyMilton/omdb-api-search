@@ -4,9 +4,8 @@ import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 import StatusBar from './components/StatusBar.vue';
-import SearchResults from './components/SearchResults.vue';
 import MovieDetails from './components/MovieDetails.vue';
-import MovieWatchlist from './components/MovieWatchlist.vue';
+import MovieList from './components/MovieList.vue';
 
 /**
  * The name of the app. Displayed in the main heading of the page.
@@ -28,11 +27,23 @@ const defaultStatus = 'Ready to search.';
 const currentStatus = ref(defaultStatus);
 
 /**
+ * A reactive reference to track the details of the latest movie search that was made.
+ *
+ * @type {import('vue').Ref<Object>}
+ */
+const latestSearch = ref({});
+
+/**
  * A reactive reference that holds an array of search results.
  *
  * @type {import('vue').Ref<Array<Object>>}
  */
 const searchResults = ref([]);
+
+/**
+ * A reactive reference storing the total results found by the API that match the latest search.
+ */
+const totalResults = ref(0);
 
 /**
  * A reactive reference to determine if the movie details view should be displayed.
@@ -51,7 +62,7 @@ const selectedMovie = ref({});
 /**
  * A reactive reference that holds an array of search result records representing the user's watchlist.
  *
- * @type {import('vue').Ref<Array<string>>}
+ * @type {import('vue').Ref<Array<Object>>}
  */
 const watchlist = ref([]);
 
@@ -70,6 +81,28 @@ const watchlistIds = computed(() => {
  * @type {import('vue').Ref<boolean>}
  */
 const showWatchlist = ref(false);
+
+/**
+ * A computed property that returns how many results are remaining to be retrieved from the API that match the latest search.
+ *
+ * @type {import('vue').Ref<number>}
+ */
+const resultsRemaining = computed(() => {
+  return totalResults.value - searchResults.value.length;
+});
+
+/**
+ * A computed property that returns whether to show the load more results button.
+ *
+ * @type {import('vue').Ref<boolean>}
+ */
+const showLoadMoreButton = computed(() => {
+  return (
+    !showWatchlist.value &&
+    searchResults.value.length &&
+    resultsRemaining.value > 0
+  );
+});
 
 /**
  * An object mapping error messages from the API to user-friendly messages.
@@ -127,12 +160,14 @@ function createRequestUrl(params) {
  * @param {string} search - The search query entered by the user.
  * @param {string} type - The type of title to search for.
  * @param {string|number} year - The year of release for the title.
+ * @param {string|number} page - The page number of the search results.
  */
-function getSearchResults(search, type, year) {
+function getSearchResults(search, type, year, page = 1) {
   const url = createRequestUrl({
     s: search,
-    type: type,
+    type,
     y: year,
+    page,
   });
 
   axios
@@ -142,9 +177,30 @@ function getSearchResults(search, type, year) {
       if (data.Response === 'False') {
         currentStatus.value = createErrorMessage(data.Error);
         searchResults.value = [];
+        totalResults.value = 0;
       } else {
-        searchResults.value = data.Search;
-        currentStatus.value = `${data.totalResults} results found.`;
+        if (
+          latestSearch.value.search &&
+          latestSearch.value.search === search &&
+          latestSearch.value.type === type &&
+          latestSearch.value.year === year &&
+          latestSearch.value.page === page - 1
+        ) {
+          searchResults.value.push(...data.Search);
+        } else {
+          searchResults.value = data.Search;
+        }
+        totalResults.value = data.totalResults;
+        currentStatus.value =
+          totalResults.value === 1
+            ? `${totalResults.value} result found.`
+            : `${totalResults.value} results found.`;
+        latestSearch.value = {
+          search,
+          type,
+          year,
+          page,
+        };
       }
     })
     .catch((error) => {
@@ -229,6 +285,23 @@ const debouncedGetMovie = debounce((id) => {
 function handleSelect(id) {
   currentStatus.value = 'Getting details';
   debouncedGetMovie(id);
+}
+
+/**
+ * Handles to click of the load more results button.
+ * If the status is not 'Loading more results',
+ * Sets the status and performs a search request.
+ */
+function handleLoadMore() {
+  if (currentStatus.value !== 'Loading more results') {
+    currentStatus.value = 'Loading more results';
+    getSearchResults(
+      latestSearch.value.search,
+      latestSearch.value.type,
+      latestSearch.value.year,
+      latestSearch.value.page + 1,
+    );
+  }
 }
 
 /**
@@ -338,22 +411,37 @@ function closeWatchlist() {
             @toggle-watchlist="handleToggleWatchlist"
           />
 
-          <!-- Movie Watchlist -->
-          <MovieWatchlist
-            v-if="showWatchlist"
-            :watchlist="watchlist"
-            :selected-movie="selectedMovie.imdbID"
-            @selection="handleSelect"
-          />
-
-          <!-- Search Results -->
-          <SearchResults
-            v-else
-            :watchlist="watchlistIds"
-            :results="searchResults"
-            :selected-result="selectedMovie.imdbID"
-            @selection="handleSelect"
-          />
+          <!-- Search Results and Watchlist -->
+          <div class="scrollbar overflow-auto lg:h-[560px]">
+            <MovieList
+              :watchlist-ids="watchlistIds"
+              :movies="showWatchlist ? watchlist : searchResults"
+              :selected-movie-id="selectedMovie.imdbID"
+              @selection="handleSelect"
+            />
+            <!-- Load More Results Button -->
+            <button
+              v-if="showLoadMoreButton"
+              type="button"
+              class="mx-auto my-6 block p-2 font-extralight"
+              :class="
+                currentStatus === 'Loading more results'
+                  ? 'cursor-not-allowed text-zinc-400'
+                  : 'hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300 active:bg-zinc-200'
+              "
+              :disabled="currentStatus === 'Loading more results'"
+              @click="handleLoadMore"
+            >
+              Load more...
+            </button>
+            <!-- Empty Watchlist Message -->
+            <p
+              v-if="showWatchlist && watchlist.length === 0"
+              class="mb-6 p-12 text-center font-extralight"
+            >
+              Your watchlist is empty.
+            </p>
+          </div>
         </div>
 
         <!-- Movie Details -->

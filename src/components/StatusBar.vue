@@ -35,7 +35,8 @@ const loading = computed(
   () =>
     props.status === 'Searching' ||
     props.status === 'Clearing search' ||
-    props.status === 'Getting details',
+    props.status === 'Getting details' ||
+    props.status === 'Loading more results',
 );
 
 /**
