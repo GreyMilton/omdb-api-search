@@ -42,4 +42,14 @@ describe('StatusBar.vue', () => {
         expect(wrapper.emitted('toggle-watchlist')).toBeTruthy();
       });
   });
+  it('emits toggle-watchlist event when button is clicked and showingWatchlist is true', () => {
+    const wrapper = createWrapper('Fake status', true);
+
+    wrapper
+      .find('button')
+      .trigger('click')
+      .then(() => {
+        expect(wrapper.emitted('toggle-watchlist')).toBeTruthy();
+      });
+  });
 });
