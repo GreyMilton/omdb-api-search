@@ -8,6 +8,7 @@ describe('StatusBar.vue', () => {
       props: { status, showingWatchlist },
     });
   }
+
   describe('with showingWatchlist false', () => {
     it('renders the correct status', () => {
       const status = 'Fake status';
@@ -17,10 +18,12 @@ describe('StatusBar.vue', () => {
       expect(statusMessage.exists()).toBe(true);
       expect(statusMessage.text()).toBe(status);
     });
+
     it('renders button text "View watchlist"', () => {
       const button = createWrapper('Fake status', false).find('button');
       expect(button.text()).toBe('View watchlist');
     });
+
     it('emits toggle-watchlist event when button is clicked', () => {
       const wrapper = createWrapper('Fake status', false);
 
@@ -32,6 +35,7 @@ describe('StatusBar.vue', () => {
         });
     });
   });
+
   describe('with showingWatchlist true', () => {
     it('renders the correct status', () => {
       const status = 'Fake status';
@@ -41,10 +45,12 @@ describe('StatusBar.vue', () => {
       expect(statusMessage.exists()).toBe(true);
       expect(statusMessage.text()).toBe(status);
     });
+
     it('renders button text "Close watchlist"', () => {
       const button = createWrapper('Fake status', true).find('button');
       expect(button.text()).toBe('Close watchlist');
     });
+
     it('emits toggle-watchlist event when button is clicked', () => {
       const wrapper = createWrapper('Fake status', true);
 
