@@ -3,16 +3,16 @@ import { describe, it, expect } from 'vitest';
 import SearchYearFilter from '../src/components/SearchYearFilter.vue';
 
 describe('SearchYearFilter.vue', () => {
+  function createWrapper(year, enabled) {
+    return mount(SearchYearFilter, {
+      props: { year, enabled },
+    });
+  }
   const currentYear = new Date().getFullYear();
 
   describe('enabled', () => {
     it('renders html elements correctly', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: true,
-        },
-      });
+      const wrapper = createWrapper('1999', true);
       const checkboxLabel = wrapper.find('label[for="enable-year"]');
       const checkbox = wrapper.find('input[type="checkbox"]');
       const yearLabel = wrapper.find('label[for="year-input"]');
@@ -37,12 +37,7 @@ describe('SearchYearFilter.vue', () => {
     });
 
     it('correctly changes the year model value on selection', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: true,
-        },
-      });
+      const wrapper = createWrapper('1999', true);
       const yearInput = wrapper.find('input[type="range"]');
 
       expect(wrapper.vm.year).toBe('1999');
@@ -53,12 +48,7 @@ describe('SearchYearFilter.vue', () => {
     });
 
     it('cannot select a year after the current year', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: true,
-        },
-      });
+      const wrapper = createWrapper('1999', true);
       const yearInput = wrapper.find('input[type="range"]');
       const nextYear = currentYear + 1;
 
@@ -70,12 +60,7 @@ describe('SearchYearFilter.vue', () => {
     });
 
     it('cannot select a year before 1900', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: true,
-        },
-      });
+      const wrapper = createWrapper('1999', true);
       const yearInput = wrapper.find('input[type="range"]');
 
       expect(wrapper.vm.year).toBe('1999');
@@ -88,12 +73,7 @@ describe('SearchYearFilter.vue', () => {
 
   describe('disabled', () => {
     it('renders html elements correctly', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: false,
-        },
-      });
+      const wrapper = createWrapper('1999', false);
       const checkboxLabel = wrapper.find('label[for="enable-year"]');
       const checkbox = wrapper.find('input[type="checkbox"]');
       const yearLabel = wrapper.find('label[for="year-input"]');
@@ -118,12 +98,7 @@ describe('SearchYearFilter.vue', () => {
     });
 
     it('cannot change the year model value on selection', () => {
-      const wrapper = mount(SearchYearFilter, {
-        props: {
-          year: '1999',
-          enabled: false,
-        },
-      });
+      const wrapper = createWrapper('1999', false);
       const yearInput = wrapper.find('input[type="range"]');
 
       expect(wrapper.vm.year).toBe('1999');
@@ -135,12 +110,7 @@ describe('SearchYearFilter.vue', () => {
   });
 
   it('correctly toggles the enabled model value when checkbox value changes', () => {
-    const wrapper = mount(SearchYearFilter, {
-      props: {
-        year: '1999',
-        enabled: true,
-      },
-    });
+    const wrapper = createWrapper('1999', true);
     const checkbox = wrapper.find('input[type="checkbox"]');
 
     expect(wrapper.vm.enabled).toBe(true);
