@@ -23,7 +23,7 @@ describe('SearchTypeFilter.vue', () => {
   ];
 
   const wrapper = mount(SearchTypeFilter, {
-    props: { types, modelValue: '' },
+    props: { types, modelValue: types[0].value },
   });
 
   it('renders a radio button for each type', () => {
@@ -37,5 +37,16 @@ describe('SearchTypeFilter.vue', () => {
       expect(radioButton.attributes('value')).toBe(type.value);
       expect(label.text()).toBe(type.label);
     });
+  });
+
+  it('correctly changes the model value on type selection', () => {
+    expect(wrapper.vm.model).toBe(types[0].value);
+
+    wrapper
+      .find(`input[type="radio"][value="${types[1].value}"]`)
+      .setValue(types[1].value)
+      .then(() => {
+        expect(wrapper.vm.model).toBe(types[1].value);
+      });
   });
 });
