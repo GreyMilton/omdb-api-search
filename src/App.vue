@@ -33,6 +33,8 @@ const currentStatus = ref(defaultStatus);
  */
 const searchResults = ref([]);
 
+const totalResults = ref(0);
+
 /**
  * A reactive reference to determine if the movie details view should be displayed.
  *
@@ -69,6 +71,18 @@ const watchlistIds = computed(() => {
  * @type {import('vue').Ref<boolean>}
  */
 const showWatchlist = ref(false);
+
+const resultsRemaining = computed(() => {
+  return totalResults.value - searchResults.value.length;
+});
+
+const showLoadMoreButton = computed(() => {
+  return (
+    !showWatchlist.value &&
+    searchResults.value.length &&
+    resultsRemaining.value > 0
+  );
+});
 
 /**
  * An object mapping error messages from the API to user-friendly messages.
@@ -141,9 +155,14 @@ function getSearchResults(search, type, year) {
       if (data.Response === 'False') {
         currentStatus.value = createErrorMessage(data.Error);
         searchResults.value = [];
+        totalResults.value = 0;
       } else {
         searchResults.value = data.Search;
-        currentStatus.value = `${data.totalResults} results found.`;
+        totalResults.value = data.totalResults;
+        currentStatus.value =
+          totalResults.value === 1
+            ? `${totalResults.value} result found.`
+            : `${totalResults.value} results found.`;
       }
     })
     .catch((error) => {
@@ -345,6 +364,19 @@ function closeWatchlist() {
               :selected-movie-id="selectedMovie.imdbID"
               @selection="handleSelect"
             />
+            <button
+              v-if="showLoadMoreButton"
+              type="button"
+              class="mx-auto my-6 block p-2 font-extralight hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-8 focus-visible:ring-blue-300 active:bg-zinc-200"
+            >
+              Load more...
+            </button>
+            <p
+              v-if="showWatchlist && watchlist.length === 0"
+              class="mb-6 p-12 text-center font-extralight"
+            >
+              Your watchlist is empty.
+            </p>
           </div>
         </div>
 
