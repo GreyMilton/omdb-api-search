@@ -19,7 +19,7 @@ describe('SearchYearFilter.vue', () => {
 
     const enableCheckbox = wrapper.find('input[type="checkbox"]');
     expect(enableCheckbox.exists()).toBe(true);
-    expect(enableCheckbox.element.value).toBe('on');
+    expect(enableCheckbox.element.checked).toBe(true);
 
     const yearLabel = wrapper.find('label[for="year-input"]');
     expect(yearLabel.exists()).toBe(true);
