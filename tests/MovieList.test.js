@@ -21,15 +21,24 @@ describe('MovieList.vue', () => {
       Poster:
         'https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg',
     },
+    {
+      Title: 'Star Wars: Episode VI - Return of the Jedi',
+      Year: '1983',
+      imdbID: 'tt0086190',
+      Type: 'movie',
+      Poster:
+        'https://m.media-amazon.com/images/M/MV5BOWZlMjFiYzgtMTUzNC00Y2IzLTk1NTMtZmNhMTczNTk0ODk1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg',
+    },
   ];
 
   const selectedMovie = movies[0];
-  const otherMovie = movies.find(
-    (movie) => movie.imdbID !== selectedMovie.imdbID,
-  );
+  const movieOnWatchlist = movies[1];
+  const otherMovie = movies[2];
+
+  const watchlistIds = [movieOnWatchlist.imdbID];
 
   const wrapper = mount(MovieList, {
-    props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds: [] },
+    props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds },
     global: {
       components: { BookmarkIcon },
     },
@@ -37,6 +46,9 @@ describe('MovieList.vue', () => {
 
   const selectedMovieButton = wrapper.find(
     `button[aria-label="Select ${selectedMovie.Title}"]`,
+  );
+  const movieOnWatchlistButton = wrapper.find(
+    `button[aria-label="Select ${otherMovie.Title}"]`,
   );
   const otherMovieButton = wrapper.find(
     `button[aria-label="Select ${otherMovie.Title}"]`,
@@ -54,6 +66,15 @@ describe('MovieList.vue', () => {
       expect(h1s[index].text()).toBe(movie.Title);
       expect(ps[index].text()).toBe(movie.Year);
     });
+
+    const svgs = wrapper.findAll('svg');
+    expect(svgs).toHaveLength(1);
+
+    const svg = svgs[0];
+    expect(svg.classes()).toContain('fill-yellow-500');
+    expect(svg.attributes('id')).toBe(
+      'watchlist-icon-' + movieOnWatchlist.imdbID,
+    );
   });
 
   it('displays no <li>s when there are no movies', () => {
@@ -63,6 +84,7 @@ describe('MovieList.vue', () => {
 
   it('applies light grey background to the selected movie', () => {
     expect(selectedMovieButton.classes()).toContain('bg-zinc-100');
+    expect(movieOnWatchlistButton.classes()).not.toContain('bg-zinc-100');
     expect(otherMovieButton.classes()).not.toContain('bg-zinc-100');
   });
 

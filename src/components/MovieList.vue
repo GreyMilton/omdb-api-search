@@ -74,6 +74,7 @@ defineEmits(['selection']);
           <!-- Bookmark Icon -->
           <BookmarkIcon
             v-if="watchlistIds.includes(movie.imdbID)"
+            :id="'watchlist-icon-' + movie.imdbID"
             class="mt-1 h-5 w-5 flex-shrink-0 self-start fill-yellow-500 stroke-yellow-500 stroke-2"
           />
         </button>
