@@ -37,14 +37,17 @@ describe('MovieList.vue', () => {
 
   const watchlistIds = [movieOnWatchlist.imdbID];
 
-  it('renders the list correctly when it has movies', () => {
-    const wrapper = mount(MovieList, {
-      props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds },
+  function createWrapper(movies, selectedMovieId, watchlistIds) {
+    return mount(MovieList, {
+      props: { movies, selectedMovieId, watchlistIds },
       global: {
         components: { BookmarkIcon },
       },
     });
+  }
 
+  it('renders the list correctly when it has movies', () => {
+    const wrapper = createWrapper(movies, selectedMovie.imdbID, watchlistIds);
     const imgs = wrapper.findAll('img');
     const h1s = wrapper.findAll('h1');
     const ps = wrapper.findAll('p');
@@ -68,24 +71,14 @@ describe('MovieList.vue', () => {
   });
 
   it('displays no <li>s when there are no movies', () => {
-    const wrapper = mount(MovieList, {
-      props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds },
-      global: {
-        components: { BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movies, selectedMovie.imdbID, watchlistIds);
 
     wrapper.vm.movies = [];
     expect(wrapper.findAll('li')).not.toHaveLength();
   });
 
   it('applies light grey background to the selected movie', () => {
-    const wrapper = mount(MovieList, {
-      props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds },
-      global: {
-        components: { BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movies, selectedMovie.imdbID, watchlistIds);
 
     const selectedMovieButton = wrapper.find(
       `button[aria-label="Select ${selectedMovie.Title}"]`,
@@ -103,12 +96,7 @@ describe('MovieList.vue', () => {
   });
 
   it('emits the selection event with correct IMDb ID when a movie is clicked', () => {
-    const wrapper = mount(MovieList, {
-      props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds },
-      global: {
-        components: { BookmarkIcon },
-      },
-    });
+    const wrapper = createWrapper(movies, selectedMovie.imdbID, watchlistIds);
 
     const otherMovieButton = wrapper.find(
       `button[aria-label="Select ${otherMovie.Title}"]`,
