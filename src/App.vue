@@ -4,9 +4,8 @@ import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import SearchBar from './components/SearchBar.vue';
 import StatusBar from './components/StatusBar.vue';
-import SearchResults from './components/SearchResults.vue';
 import MovieDetails from './components/MovieDetails.vue';
-import MovieWatchlist from './components/MovieWatchlist.vue';
+import MovieList from './components/MovieList.vue';
 
 /**
  * The name of the app. Displayed in the main heading of the page.
@@ -338,22 +337,15 @@ function closeWatchlist() {
             @toggle-watchlist="handleToggleWatchlist"
           />
 
-          <!-- Movie Watchlist -->
-          <MovieWatchlist
-            v-if="showWatchlist"
-            :watchlist="watchlist"
-            :selected-movie="selectedMovie.imdbID"
-            @selection="handleSelect"
-          />
-
-          <!-- Search Results -->
-          <SearchResults
-            v-else
-            :watchlist="watchlistIds"
-            :results="searchResults"
-            :selected-result="selectedMovie.imdbID"
-            @selection="handleSelect"
-          />
+          <!-- Search results and Watchlist -->
+          <div class="scrollbar overflow-auto lg:h-[560px]">
+            <MovieList
+              :watchlist-ids="watchlistIds"
+              :movies="showWatchlist ? watchlist : searchResults"
+              :selected-movie-id="selectedMovie.imdbID"
+              @selection="handleSelect"
+            />
+          </div>
         </div>
 
         <!-- Movie Details -->

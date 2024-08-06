@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import MovieWatchlist from '../src/components/MovieWatchlist.vue';
+import MovieList from '../src/components/MovieList.vue';
 import BookmarkIcon from '../src/components/icons/BookmarkIcon.vue';
 
-describe('MovieWatchlist.vue', () => {
-  const watchlist = [
+describe('MovieList.vue', () => {
+  const movies = [
     {
       Title: 'Star Wars: Episode IV - A New Hope',
       Year: '1977',
@@ -23,19 +23,19 @@ describe('MovieWatchlist.vue', () => {
     },
   ];
 
-  const selectedMovie = watchlist[0];
-  const otherMovie = watchlist.find(
+  const selectedMovie = movies[0];
+  const otherMovie = movies.find(
     (movie) => movie.imdbID !== selectedMovie.imdbID,
   );
 
-  const wrapperWithMovies = mount(MovieWatchlist, {
-    props: { watchlist, selectedMovie: selectedMovie.imdbID },
+  const wrapperWithMovies = mount(MovieList, {
+    props: { movies, selectedMovieId: selectedMovie.imdbID, watchlistIds: [] },
     global: {
       components: { BookmarkIcon },
     },
   });
-  const wrapperNoMovies = mount(MovieWatchlist, {
-    props: { watchlist: [], selectedMovie: '' },
+  const wrapperNoMovies = mount(MovieList, {
+    props: { movies: [], selectedMovieId: '', watchlistIds: [] },
     global: {
       components: { BookmarkIcon },
     },
@@ -48,22 +48,22 @@ describe('MovieWatchlist.vue', () => {
     `button[aria-label="Select ${otherMovie.Title}"]`,
   );
 
-  it('renders the movie list correctly when watchlist has movies', () => {
+  it('renders the list correctly when it has movies', () => {
     const imgs = wrapperWithMovies.findAll('img');
     const h1s = wrapperWithMovies.findAll('h1');
     const ps = wrapperWithMovies.findAll('p');
 
-    expect(wrapperWithMovies.findAll('li')).toHaveLength(watchlist.length);
+    expect(wrapperWithMovies.findAll('li')).toHaveLength(movies.length);
 
-    watchlist.forEach((movie, index) => {
+    movies.forEach((movie, index) => {
       expect(imgs[index].attributes('src')).toBe(movie.Poster);
       expect(h1s[index].text()).toBe(movie.Title);
       expect(ps[index].text()).toBe(movie.Year);
     });
   });
 
-  it('displays the empty message when the watchlist is empty', () => {
-    expect(wrapperNoMovies.text()).toContain('Your watchlist is empty.');
+  it('displays no <li>s when there are no movies', () => {
+    expect(wrapperNoMovies.findAll('li')).not.toHaveLength();
   });
 
   it('applies light grey background to the selected movie', () => {
@@ -75,7 +75,7 @@ describe('MovieWatchlist.vue', () => {
     otherMovieButton.trigger('click').then(() => {
       const selection = wrapperWithMovies.emitted('selection');
       expect(selection).toBeTruthy();
-      expect(selection[0]).toEqual([watchlist[1].imdbID]);
+      expect(selection[0]).toEqual([movies[1].imdbID]);
     });
   });
 });
