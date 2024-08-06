@@ -70,7 +70,7 @@ describe('MovieList.vue', () => {
     otherMovieButton.trigger('click').then(() => {
       const selection = wrapper.emitted('selection');
       expect(selection).toBeTruthy();
-      expect(selection[0]).toEqual([movies[1].imdbID]);
+      expect(selection[0]).toEqual([otherMovie.imdbID]);
     });
   });
 });
