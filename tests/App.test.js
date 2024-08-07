@@ -29,4 +29,11 @@ describe('App.vue', () => {
     expect(wrapper.findComponent(StatusBar).exists()).toBe(true);
     expect(wrapper.findComponent(MovieList).exists()).toBe(true);
   });
+
+  it('does not render MovieDetails component when showMovieDetails is false', () => {
+    const wrapper = createWrapper();
+
+    expect(wrapper.vm.showMovieDetails).toBe(false);
+    expect(wrapper.findComponent(MovieDetails).exists()).toBe(false);
+  });
 });
