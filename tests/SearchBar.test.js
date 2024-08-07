@@ -31,6 +31,7 @@ describe('SearchBar.vue', () => {
 
   it('correctly assigns search ref to v-model on SearchInput.vue', () => {
     const wrapper = createWrapper();
+
     wrapper
       .findComponent(SearchInput)
       .setValue('Star wars')
@@ -40,8 +41,7 @@ describe('SearchBar.vue', () => {
   });
 
   it('passes the correct types to SearchTypeFilter.vue', () => {
-    const wrapper = createWrapper();
-    const typeFilter = wrapper.findComponent(SearchTypeFilter);
+    const typeFilter = createWrapper().findComponent(SearchTypeFilter);
 
     expect(typeFilter.props('types')).toEqual(expectedTypes);
   });
@@ -59,9 +59,7 @@ describe('SearchBar.vue', () => {
 
   it('correctly assigns yearEnabled ref to v-model on SearchYearFilter.vue', () => {
     const wrapper = createWrapper();
-    const checkbox = wrapper
-      .findComponent(SearchYearFilter)
-      .find('input[type="checkbox"]');
+    const checkbox = wrapper.find('input[type="checkbox"]');
 
     expect(wrapper.vm.yearEnabled).toBe(false);
 
