@@ -154,6 +154,37 @@ function createRequestUrl(params) {
 }
 
 /**
+ * Returns whether the current request is meant to be loading more results.
+ *
+ * @param {string} search - The search query entered by the user.
+ * @param {string} type - The type of title to search for.
+ * @param {string|number} year - The year of release for the title.
+ * @param {string|number} page - The page number of the search results.
+ * @returns {boolean} Wether the current request is loading more results.
+ */
+function isLoadingMore(search, type, year, page) {
+  return (
+    latestSearch.value.search &&
+    latestSearch.value.search === search &&
+    latestSearch.value.type === type &&
+    latestSearch.value.year === year &&
+    latestSearch.value.page === page - 1
+  );
+}
+
+/**
+ * Creates a new status message for describing the total results found on the latest search.
+ *
+ * @param {string} totalResults - The total results to describe.
+ * @returns {string} The new status message.
+ */
+function createTotalResultsStatus(totalResults) {
+  return totalResults === '1'
+    ? `${totalResults} result found.`
+    : `${totalResults} results found.`;
+}
+
+/**
  * Fetches search results from the API based on the search, type, and year parameters.
  * Updates the search results and status message based on the response.
  *
@@ -179,22 +210,13 @@ function getSearchResults(search, type, year, page = 1) {
         searchResults.value = [];
         totalResults.value = 0;
       } else {
-        if (
-          latestSearch.value.search &&
-          latestSearch.value.search === search &&
-          latestSearch.value.type === type &&
-          latestSearch.value.year === year &&
-          latestSearch.value.page === page - 1
-        ) {
+        if (isLoadingMore(search, type, year, page)) {
           searchResults.value.push(...data.Search);
         } else {
           searchResults.value = data.Search;
         }
         totalResults.value = data.totalResults;
-        currentStatus.value =
-          totalResults.value === 1
-            ? `${totalResults.value} result found.`
-            : `${totalResults.value} results found.`;
+        currentStatus.value = createTotalResultsStatus(data.totalResults);
         latestSearch.value = {
           search,
           type,
