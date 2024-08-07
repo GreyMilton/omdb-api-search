@@ -50,4 +50,24 @@ describe('SearchBar.vue', () => {
       expect(wrapper.vm.type).toBe(expectedTypes[1].value);
     });
   });
+
+  it('correctly assigns yearEnabled ref to v-model on SearchYearFilter.vue', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper
+      .findComponent(SearchYearFilter)
+      .find('input[type="checkbox"]');
+
+    expect(wrapper.vm.yearEnabled).toBe(false);
+
+    checkbox
+      .setValue(true)
+      .then(() => {
+        expect(wrapper.vm.yearEnabled).toBe(true);
+
+        checkbox.setValue(false);
+      })
+      .then(() => {
+        expect(wrapper.vm.yearEnabled).toBe(false);
+      });
+  });
 });
