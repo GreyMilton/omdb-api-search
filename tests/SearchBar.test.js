@@ -6,6 +6,13 @@ import SearchTypeFilter from '../src/components/SearchTypeFilter.vue';
 import SearchYearFilter from '../src/components/SearchYearFilter.vue';
 
 describe('SearchBar.vue', () => {
+  const expectedTypes = [
+    { value: '', label: 'any' },
+    { value: 'movie', label: 'movies' },
+    { value: 'series', label: 'series' },
+    { value: 'episode', label: 'episodes' },
+  ];
+
   function createWrapper() {
     return mount(SearchBar, {
       global: {
@@ -32,17 +39,16 @@ describe('SearchBar.vue', () => {
       });
   });
 
-  it('passes the correct types and correctly assigns type ref to v-model on SearchTypeFilter.vue', () => {
+  it('passes the correct types to SearchTypeFilter.vue', () => {
     const wrapper = createWrapper();
     const typeFilter = wrapper.findComponent(SearchTypeFilter);
-    const expectedTypes = [
-      { value: '', label: 'any' },
-      { value: 'movie', label: 'movies' },
-      { value: 'series', label: 'series' },
-      { value: 'episode', label: 'episodes' },
-    ];
 
     expect(typeFilter.props('types')).toEqual(expectedTypes);
+  });
+
+  it('correctly assigns type ref to v-model on SearchTypeFilter.vue', () => {
+    const wrapper = createWrapper();
+    const typeFilter = wrapper.findComponent(SearchTypeFilter);
 
     expect(wrapper.vm.type).toBe('');
 
