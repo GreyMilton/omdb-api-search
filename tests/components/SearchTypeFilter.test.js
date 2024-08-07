@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import SearchTypeFilter from '../src/components/SearchTypeFilter.vue';
+import SearchTypeFilter from '@/components/SearchTypeFilter.vue';
 
 describe('SearchTypeFilter.vue', () => {
   const types = [

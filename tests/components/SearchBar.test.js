@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import SearchBar from '../src/components/SearchBar.vue';
-import SearchInput from '../src/components/SearchInput.vue';
-import SearchTypeFilter from '../src/components/SearchTypeFilter.vue';
-import SearchYearFilter from '../src/components/SearchYearFilter.vue';
+import SearchBar from '@/components/SearchBar.vue';
+import SearchInput from '@/components/SearchInput.vue';
+import SearchTypeFilter from '@/components/SearchTypeFilter.vue';
+import SearchYearFilter from '@/components/SearchYearFilter.vue';
 
 describe('SearchBar.vue', () => {
   const expectedTypes = [

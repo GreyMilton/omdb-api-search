@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import SearchYearFilter from '../src/components/SearchYearFilter.vue';
+import SearchYearFilter from '@/components/SearchYearFilter.vue';
 
 describe('SearchYearFilter.vue', () => {
   function createWrapper(year, enabled) {

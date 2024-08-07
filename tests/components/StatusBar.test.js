@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import StatusBar from '../src/components/StatusBar.vue';
+import StatusBar from '@/components/StatusBar.vue';
 
 describe('StatusBar.vue', () => {
   function createWrapper(status, showingWatchlist) {
