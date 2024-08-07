@@ -129,4 +129,19 @@ describe('SearchBar.vue', () => {
         ]);
       });
   });
+
+  it('emits no search event when year filter changes and search input has no text', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    const yearInput = wrapper.find('input[type="range"]');
+
+    checkbox
+      .setValue(true)
+      .then(() => {
+        yearInput.setValue('1999');
+      })
+      .then(() => {
+        expect(wrapper.emitted()).not.toHaveProperty('search');
+      });
+  });
 });
