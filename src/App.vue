@@ -141,9 +141,6 @@ function clearSearch() {
  * Creates a request URL for the API call based on the given parameters.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.s - The search query.
- * @param {string} [params.type] - The type of title to search for (optional).
- * @param {string} [params.y] - The year of release (optional).
  * @returns {string} The complete URL for the API request.
  */
 function createRequestUrl(params) {
@@ -185,7 +182,7 @@ function createTotalResultsStatus(totalResults) {
 }
 
 /**
- * Fetches search results from the API based on the search, type, and year parameters.
+ * Fetches search results from the API based on the search, type, year, and page parameters.
  * Updates the search results and status message based on the response.
  *
  * @param {string} search - The search query entered by the user.
@@ -194,12 +191,7 @@ function createTotalResultsStatus(totalResults) {
  * @param {string|number} page - The page number of the search results.
  */
 function getSearchResults(search, type, year, page = 1) {
-  const url = createRequestUrl({
-    s: search,
-    type,
-    y: year,
-    page,
-  });
+  const url = createRequestUrl({ s: search, type, y: year, page });
 
   axios
     .get(url)
@@ -217,12 +209,7 @@ function getSearchResults(search, type, year, page = 1) {
         }
         totalResults.value = data.totalResults;
         currentStatus.value = createTotalResultsStatus(data.totalResults);
-        latestSearch.value = {
-          search,
-          type,
-          year,
-          page,
-        };
+        latestSearch.value = { search, type, year, page };
       }
     })
     .catch((error) => {
@@ -265,9 +252,7 @@ function handleSearch(search, type, year) {
  * @param {string} id - The IMDb ID of the movie to fetch details for.
  */
 function getMovie(id) {
-  const url = createRequestUrl({
-    i: id,
-  });
+  const url = createRequestUrl({ i: id });
 
   axios
     .get(url)
