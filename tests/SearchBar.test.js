@@ -76,4 +76,22 @@ describe('SearchBar.vue', () => {
         expect(wrapper.vm.yearEnabled).toBe(false);
       });
   });
+
+  it('correctly assigns year ref to v-model on SearchYearFilter.vue', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    const yearInput = wrapper.find('input[type="range"]');
+    const currentYear = new Date().getFullYear();
+
+    expect(wrapper.vm.year).toBe(currentYear + '');
+
+    checkbox
+      .setValue(true)
+      .then(() => {
+        yearInput.setValue('1999');
+      })
+      .then(() => {
+        expect(wrapper.vm.year).toBe('1999');
+      });
+  });
 });
