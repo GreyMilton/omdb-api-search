@@ -13,6 +13,8 @@ describe('SearchBar.vue', () => {
     { value: 'episode', label: 'episodes' },
   ];
 
+  const currentYear = new Date().getFullYear() + '';
+
   function createWrapper() {
     return mount(SearchBar, {
       global: {
@@ -79,9 +81,8 @@ describe('SearchBar.vue', () => {
     const wrapper = createWrapper();
     const checkbox = wrapper.find('input[type="checkbox"]');
     const yearInput = wrapper.find('input[type="range"]');
-    const currentYear = new Date().getFullYear();
 
-    expect(wrapper.vm.year).toBe(currentYear + '');
+    expect(wrapper.vm.year).toBe(currentYear);
 
     checkbox
       .setValue(true)
@@ -142,6 +143,25 @@ describe('SearchBar.vue', () => {
       })
       .then(() => {
         expect(wrapper.emitted()).not.toHaveProperty('search');
+      });
+  });
+
+  it('emits correct search event when year filter changes and search input has text', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    const yearInput = wrapper.find('input[type="range"]');
+    const searchInput = wrapper.findComponent(SearchInput);
+
+    searchInput
+      .setValue('Star trek')
+      .then(() => {
+        checkbox.setValue(true);
+      })
+      .then(() => {
+        yearInput.setValue('1999');
+      })
+      .then(() => {
+        expect(wrapper.emitted().search[2]).toEqual(['Star trek', '', '1999']);
       });
   });
 });
