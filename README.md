@@ -42,7 +42,7 @@ This repo was built undertaking a fun challenge in interacting with an API and d
 npm install
 ```
 
-### Create and Populate `.env`
+### Create and Populate .env
 
 See `.env.example` for required variables.
 
@@ -100,7 +100,9 @@ I planned the development process, and created mock Jira issues for tracking git
 
 ## Looking Forward
 
-Whilst I am happy with the work I have done, given more time I would...
+Whilst I am happy with the work I have done, in the future I would...
+
+- _Refactor App.vue_ - This component is fairly large and contains code that could be reused in other places as the app expands. I would consider splitting this into separate components, or at least extracting some of the JS into other files. E.g. `utils.js` and `api.js` for reusable utility functions and api related code. This would also help with testing as mentioned below.
 
 - _Expand testing_ - I would increase testing coverage, consider more 'sad paths', and also consider implementing different types of tests e.g. unit tests and end-to-end tests.
 
