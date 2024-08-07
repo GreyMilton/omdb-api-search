@@ -101,4 +101,32 @@ describe('SearchBar.vue', () => {
       expect(wrapper.emitted().search[0]).toEqual(['Star wars', '', '']);
     });
   });
+
+  it('emits no search event when type filter changes and search input has no text', () => {
+    const wrapper = createWrapper();
+    const typeFilter = wrapper.findComponent(SearchTypeFilter);
+
+    typeFilter.setValue(expectedTypes[2].value).then(() => {
+      expect(wrapper.emitted()).not.toHaveProperty('search');
+    });
+  });
+
+  it('emits correct search event when type filter changes and search input has text', () => {
+    const wrapper = createWrapper();
+    const searchInput = wrapper.findComponent(SearchInput);
+    const typeFilter = wrapper.findComponent(SearchTypeFilter);
+
+    searchInput
+      .setValue('Star trek')
+      .then(() => {
+        typeFilter.setValue(expectedTypes[2].value);
+      })
+      .then(() => {
+        expect(wrapper.emitted().search[1]).toEqual([
+          'Star trek',
+          expectedTypes[2].value,
+          '',
+        ]);
+      });
+  });
 });
