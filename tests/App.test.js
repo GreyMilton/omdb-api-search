@@ -21,4 +21,12 @@ describe('App.vue', () => {
 
     expect(header.text()).toBe(appName);
   });
+
+  it('renders child components', () => {
+    const wrapper = createWrapper();
+
+    expect(wrapper.findComponent(SearchBar).exists()).toBe(true);
+    expect(wrapper.findComponent(StatusBar).exists()).toBe(true);
+    expect(wrapper.findComponent(MovieList).exists()).toBe(true);
+  });
 });
