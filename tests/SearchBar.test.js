@@ -165,6 +165,22 @@ describe('SearchBar.vue', () => {
       });
   });
 
+  it('emits no search event when year filter enabled checkbox changes and search input has no text', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper.find('input[type="checkbox"]');
+
+    checkbox
+      .setValue(true)
+      .then(() => {
+        expect(wrapper.emitted()).not.toHaveProperty('search');
+
+        checkbox.setValue(false);
+      })
+      .then(() => {
+        expect(wrapper.emitted()).not.toHaveProperty('search');
+      });
+  });
+
   it('emits correct search event when year filter enabled checkbox changes and search input has text', () => {
     const wrapper = createWrapper();
     const checkbox = wrapper.find('input[type="checkbox"]');
