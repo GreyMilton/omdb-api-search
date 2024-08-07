@@ -13,6 +13,7 @@ describe('SearchBar.vue', () => {
       },
     });
   }
+
   it('renders child components', () => {
     const wrapper = createWrapper();
 
@@ -29,5 +30,24 @@ describe('SearchBar.vue', () => {
       .then(() => {
         expect(wrapper.vm.search).toBe('Star wars');
       });
+  });
+
+  it('passes the correct types and correctly assigns type ref to v-model on SearchTypeFilter.vue', () => {
+    const wrapper = createWrapper();
+    const typeFilter = wrapper.findComponent(SearchTypeFilter);
+    const expectedTypes = [
+      { value: '', label: 'any' },
+      { value: 'movie', label: 'movies' },
+      { value: 'series', label: 'series' },
+      { value: 'episode', label: 'episodes' },
+    ];
+
+    expect(typeFilter.props('types')).toEqual(expectedTypes);
+
+    expect(wrapper.vm.type).toBe('');
+
+    typeFilter.setValue(expectedTypes[1].value).then(() => {
+      expect(wrapper.vm.type).toBe(expectedTypes[1].value);
+    });
   });
 });
