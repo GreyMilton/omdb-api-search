@@ -93,4 +93,21 @@ describe('App.vue', () => {
 
     expect(wrapper.vm.resultsRemaining).toBe(3);
   });
+
+  it('correctly shows load more button', () => {
+    const wrapper = createWrapper();
+
+    new Promise((resolve) => {
+      wrapper.vm.totalResults = 13;
+      wrapper.vm.showWatchlist = false;
+      wrapper.vm.searchResults = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      resolve();
+    }).then(() => {
+      const loadMoreButton = wrapper
+        .findAll('button[type="button"]')
+        .filter((button) => button.text() === 'Load more...')[0];
+
+      expect(loadMoreButton.text()).toBe('Load more...');
+    });
+  });
 });
