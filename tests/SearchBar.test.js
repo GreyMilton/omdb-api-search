@@ -164,4 +164,28 @@ describe('SearchBar.vue', () => {
         expect(wrapper.emitted().search[2]).toEqual(['Star trek', '', '1999']);
       });
   });
+
+  it('emits correct search event when year filter enabled checkbox changes and search input has text', () => {
+    const wrapper = createWrapper();
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    const searchInput = wrapper.findComponent(SearchInput);
+
+    searchInput
+      .setValue('Star trek')
+      .then(() => {
+        checkbox.setValue(true);
+      })
+      .then(() => {
+        expect(wrapper.emitted().search[1]).toEqual([
+          'Star trek',
+          '',
+          currentYear,
+        ]);
+
+        checkbox.setValue(false);
+      })
+      .then(() => {
+        expect(wrapper.emitted().search[2]).toEqual(['Star trek', '', '']);
+      });
+  });
 });
