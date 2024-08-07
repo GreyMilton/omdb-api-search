@@ -92,4 +92,13 @@ describe('SearchBar.vue', () => {
         expect(wrapper.vm.year).toBe('1999');
       });
   });
+
+  it('emits correct search event when search input changes', () => {
+    const wrapper = createWrapper();
+    const searchInput = wrapper.findComponent(SearchInput);
+
+    searchInput.setValue('Star wars').then(() => {
+      expect(wrapper.emitted().search[0]).toEqual(['Star wars', '', '']);
+    });
+  });
 });
