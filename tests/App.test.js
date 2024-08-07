@@ -110,4 +110,21 @@ describe('App.vue', () => {
       expect(loadMoreButton.text()).toBe('Load more...');
     });
   });
+
+  it('correctly hides load more button when watchlist is showing', () => {
+    const wrapper = createWrapper();
+
+    new Promise((resolve) => {
+      wrapper.vm.totalResults = 13;
+      wrapper.vm.showWatchlist = true;
+      wrapper.vm.searchResults = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      resolve();
+    }).then(() => {
+      const loadMoreButton = wrapper
+        .findAll('button[type="button"]')
+        .filter((button) => button.text() === 'Load more...')[0];
+
+      expect(loadMoreButton).toBe(undefined);
+    });
+  });
 });
