@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import MovieList from '../src/components/MovieList.vue';
-import BookmarkIcon from '../src/components/icons/BookmarkIcon.vue';
+import MovieList from '@/components/MovieList.vue';
+import BookmarkIcon from '@/components/icons/BookmarkIcon.vue';
 
 describe('MovieList.vue', () => {
   const movies = [

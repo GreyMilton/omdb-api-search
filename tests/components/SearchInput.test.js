@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import SearchInput from '../src/components/SearchInput.vue';
-import CrossIcon from '../src/components/icons/CrossIcon.vue';
-import MagnifyingGlass from '../src/components/icons/MagnifyingGlass.vue';
+import SearchInput from '@/components/SearchInput.vue';
+import CrossIcon from '@/components/icons/CrossIcon.vue';
+import MagnifyingGlass from '@/components/icons/MagnifyingGlass.vue';
 
 describe('SearchInput.vue', () => {
   function createWrapper(modelValue) {
