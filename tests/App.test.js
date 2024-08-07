@@ -85,4 +85,12 @@ describe('App.vue', () => {
       movies[2].imdbID,
     ]);
   });
+
+  it('computes resultsRemaining correctly', () => {
+    const wrapper = createWrapper();
+    wrapper.vm.totalResults = 13;
+    wrapper.vm.searchResults = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    expect(wrapper.vm.resultsRemaining).toBe(3);
+  });
 });
