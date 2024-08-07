@@ -20,4 +20,14 @@ describe('SearchBar.vue', () => {
     expect(wrapper.findComponent(SearchTypeFilter).exists()).toBe(true);
     expect(wrapper.findComponent(SearchYearFilter).exists()).toBe(true);
   });
+
+  it('correctly assigns search ref to v-model on SearchInput.vue', () => {
+    const wrapper = createWrapper();
+    wrapper
+      .findComponent(SearchInput)
+      .setValue('Star wars')
+      .then(() => {
+        expect(wrapper.vm.search).toBe('Star wars');
+      });
+  });
 });
