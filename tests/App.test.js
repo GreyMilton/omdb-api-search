@@ -36,4 +36,14 @@ describe('App.vue', () => {
     expect(wrapper.vm.showMovieDetails).toBe(false);
     expect(wrapper.findComponent(MovieDetails).exists()).toBe(false);
   });
+
+  it('renders MovieDetails component when showMovieDetails is true', () => {
+    const wrapper = createWrapper();
+
+    new Promise((resolve) => {
+      resolve((wrapper.vm.showMovieDetails = true));
+    }).then(() => {
+      expect(wrapper.findComponent(MovieDetails).exists()).toBe(true);
+    });
+  });
 });
